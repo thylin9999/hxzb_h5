@@ -1,0 +1,29 @@
+<template>
+    <div class=" header flex justify-between align-center p-l-10 p-r-10">
+        <div class="logo">
+            <img class="w-100" :src="logo" alt="">
+        </div>
+        <span>返回首页</span>
+        <span>下载app</span>
+    </div>
+</template>
+<script>
+
+export default {
+    name: 'Header',
+    data () {
+        return {
+            logo: 'https://qiuyou.live/h5/img/logo.38d15be9.png'
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+@import '@/theme/default-vars.scss';
+.header {
+    height: 50px;
+    .logo{
+        width: 130px;
+    }
+}
+</style>
