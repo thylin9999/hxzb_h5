@@ -4,7 +4,7 @@
             <img class="w-100" :src="logo" alt="">
         </div>
         <span>返回首页</span>
-        <span>下载app</span>
+        <span class="download-button d-inline-block text-center text-color">下载APP</span>
     </div>
 </template>
 <script>
@@ -24,6 +24,14 @@ export default {
     height: 50px;
     .logo{
         width: 130px;
+    }
+    .download-button{
+        width: 83.5px;
+        height: 24.5px;
+        line-height: 24.5px;
+        font-size: 13px;
+        background-color: $button-color;
+        border-radius: 12px;
     }
 }
 </style>

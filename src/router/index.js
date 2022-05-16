@@ -31,14 +31,28 @@ const routes = [
             {
                 path: '/user/login',
                 name: 'Login',
-                component: () => import(/* webpcakChunkName: "My" */ '../views/User/Login.vue')
+                component: () => import(/* webpcakChunkName: "My" */ '../views/User/Login.vue'),
+                meta: {
+                    hideFooter: true
+                }
             },
             {
                 path: '/user/register',
                 name: 'Register',
-                component: () => import(/* webpcakChunkName: "My" */ '../views/User/Register.vue')
+                component: () => import(/* webpcakChunkName: "My" */ '../views/User/Register.vue'),
+                meta: {
+                    hideFooter: true
+                }
             }
         ]
+    },
+    {
+        path: '/recommend',
+        name: 'Recommend',
+        component: () => import(/* webpcakChunkName: "Recommend" */ '../views/Competition/Recommend.vue'),
+        meta: {
+            name: 'Recommend'
+        }
     }
 ]
 

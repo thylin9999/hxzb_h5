@@ -1,18 +1,18 @@
 <template>
   <div class="home h-100">
     <div class="swiper w-100">
-        <img class="w-100 h-100" :src="banner" alt="">
+        <swiper-banner />
     </div>
     <div class="p-t-10 p-b-10 divider"></div>
-    <div class="list">
-        <div class="list-header flex justify-between align-center">
-            <div class="">
-                <svg-icon icon-class="hot"></svg-icon>
-                <span>{{ $t('Home.recommendBroadcast')}}</span>
+    <div class="list m-t-10">
+        <div class="list-header flex justify-between align-center p-b-10">
+            <div class="hot-recommend flex align-center">
+                <hot-icon class="h-100 d-inline-block"/>
+                <span class="download-button p-l-5">{{ $t('Home.recommendBroadcast')}}</span>
             </div>
-            <div>
-                <span>查看更多</span>
-                <svg-icon icon-class="left-arrow"></svg-icon>
+            <div class="font-12 light-text-color view-more">
+                <span @click="viewMore">查看更多</span>
+                <svg-icon icon-class="rightArrow"></svg-icon>
             </div>
         </div>
         <div class="list-section p-l-5 p-r-5">
@@ -44,10 +44,13 @@
 // @ is an alias to /src
 import { getLiveList } from '@/api/competition'
 import { statusCode } from '@/utils/statusCode'
-
+import SwiperBanner from '@/components/SwiperBanner'
+import HotIcon from '@/components/HotIcon'
 export default {
     name: 'Home',
     components: {
+        SwiperBanner,
+        HotIcon
     },
     data () {
         return {
@@ -86,11 +89,17 @@ export default {
             } catch (e) {
                 console.log(e, '出错了')
             }
+        },
+        viewMore () {
+            this.$router.push({
+                name: 'Recommend'
+            })
         }
     }
 }
 </script>
 <style lang="scss" scoped>
+@import '@/theme/default-vars.scss';
 .swiper {
     height: 133px;
 }
@@ -103,6 +112,25 @@ export default {
         background-size: 100% auto;
         background-repeat: no-repeat;
         background-position: center;
+    }
+}
+.list-header {
+    font-size: 15px;
+    .hot-recommend {
+        line-height: 21.5px;
+        height: 21.5px;
+        .hot-icon {
+            width: 17px;
+        }
+    }
+}
+::v-deep {
+    .view-more {
+        .svg-icon {
+            width: 16px;
+            height: 16px;
+            fill: $light-text-color;
+        }
     }
 }
 </style>

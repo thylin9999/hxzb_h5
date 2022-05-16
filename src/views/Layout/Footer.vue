@@ -5,6 +5,7 @@
             v-for="menu in menus"
             :key="menu.key"
             class="flex flex-column flex-1 align-center"
+            @click="goToPage(menu)"
         >
             <svg-icon :icon-class="menu.key" />
             <span>{{ menu.name }}</span>
@@ -22,24 +23,32 @@ export default {
                 {
                     id: 1,
                     name: '首页',
-                    key: 'home'
+                    key: 'Home'
                 },
                 {
                     id: 2,
                     name: '赛事',
-                    key: 'competition'
+                    key: 'Competition'
                 },
                 {
                     id: 3,
                     name: 'APP',
-                    key: 'app'
+                    key: 'App'
                 },
                 {
                     id: 4,
                     name: '我的',
-                    key: 'my'
+                    key: 'My'
                 }
             ]
+        }
+    },
+    methods: {
+        goToPage (menu) {
+            console.log(menu)
+            this.$router.push({
+                name: menu.key
+            })
         }
     }
 }
