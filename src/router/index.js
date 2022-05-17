@@ -53,6 +53,14 @@ const routes = [
         meta: {
             name: 'Recommend'
         }
+    },
+    {
+        path: '/competition',
+        name: 'Competition',
+        component: () => import(/* webpcakChunkName: "Recommend" */ '../views/Competition/Competition.vue'),
+        meta: {
+            name: 'Competition'
+        }
     }
 ]
 

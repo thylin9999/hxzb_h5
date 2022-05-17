@@ -1,7 +1,7 @@
 <template>
     <div class="h-100 basic-layout flex flex-column">
         <Header />
-        <div class="flex-1 content optiscroll" id="scroll-content">
+        <div class="flex-1 content " >
             <router-view class="flex-1 overflow-y-auto"></router-view>
         </div>
     </div>
@@ -20,14 +20,12 @@ export default {
         ...mapState('user', ['token', 'userName'])
     },
     mounted () {
-        // const element = document.querySelector('#scroll-content')
-        // const myOptiscrollInstance = new Optiscroll(element)
     }
 }
 </script>
 <style lang="scss" scoped>
 .content {
-    margin-bottom: 50px;
-    width: calc(100% + 16px);
+    padding-bottom: 50px;
+    //width: calc(100% + 16px);
 }
 </style>

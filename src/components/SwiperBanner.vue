@@ -79,14 +79,17 @@ export default {
 }
 .swiperslide{
     width: 100% !important;
-    height: 133.5px;
+    height: 150px;
 }
-.swiper-pagination {
-    text-align: right;
-}
+
 ::v-deep {
     .swiper-pagination-bullet {
-        background-color: #ebedf0;
+        width: 30px;
+        height: 3px;
+        display: inline-block;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 0;
+        margin: 0!important;
     }
     .swiper-pagination-bullet-active {
         background-color: #fff;

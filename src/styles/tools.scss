@@ -89,6 +89,17 @@
     font-size: 20px;
 }
 
+.font-medium {
+    font-family: PingFang-SC-Medium;
+}
+.font-regular {
+    font-family: PingFang-SC-Regular;
+}
+
+.font-500 {
+    font-weight: 500;
+}
+
 // text-color
 .text-color {
     color: $text-color
@@ -96,6 +107,13 @@
 
 .light-text-color {
     color: $light-text-color;
+}
+
+.text-black-3 {
+    color: $text-black-3;
+}
+.text-gray {
+    color: $text-gray;
 }
 // text-align
 .text-center {
@@ -114,4 +132,9 @@
 }
 .bg-center {
     background-position: center;
+}
+
+// z-index
+.z-index-5 {
+    z-index: 5;
 }

@@ -60,5 +60,7 @@ export default {
     height: 50px;
     left: 0;
     bottom: 0;
+    z-index: 999;
+    background-color: #fff;
 }
 </style>
