@@ -9,12 +9,10 @@
                     class="time-item font-12 p-t-5 p-b-5"
                     v-for="time in times"
                     :key="time.date"
-                    :class="{'is-active': currentDate === time.date }"
-                    @click="choseDate(time)"
                 >
-                    <div class="flex-column h-100 font-regular justify-center flex align-center font-12">
-                        <span class="date">{{ time.date }}</span>
-                        <span class="weekday">{{ time.weekName }}</span>
+                    <div class="flex-column flex align-center font-12">
+                        <span>{{ time.date }}</span>
+                        <span>{{ time.weekName }}</span>
                     </div>
                 </li>
             </ul>
@@ -27,7 +25,8 @@
 
 <script>
 import dayjs from 'dayjs'
-import { weekDay } from '../../../utils/utils'
+import { weekDay } from '../utils/utils'
+
 const isoweek = require('dayjs/plugin/isoWeek')
 export default {
     name: 'TimeLine',
@@ -45,9 +44,8 @@ export default {
         return {
             times: [],
             scrollBox: {
-                width: (this.showDaysNumber + 1) * 55 + 40
-            },
-            currentDate: dayjs().format('MM-DD')
+                width: (this.showDaysNumber + 1) * 65 + 50
+            }
         }
     },
     computed: {
@@ -63,6 +61,7 @@ export default {
     },
     methods: {
         initTimes () {
+            const today = dayjs().format('MM-DD')
             const list = []
             list.push({
                 date: dayjs().format('MM-DD'),
@@ -81,46 +80,31 @@ export default {
                 })
             }
             // dayjs().date(1).add(1, 'month').subtract(1, 'day')
+            console.log(today, 'asdf', list)
             this.times = list
-        },
-        choseDate (time) {
-            this.currentDate = time.date
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/theme/default-vars.scss';
 .time-line {
     margin: 0 auto;
     width: 375px;
-    background-color: $background-gray;
+    height: 50px;
+    background-color: #eee;
     overflow-x: overlay;
     .time-ul {
         width: fit-content;
     }
     .time-item {
-        width: 55px;
-        height: 54px;
-        .date {
-            color: $text-black-3;
-        }
-        .weekday {
-            color: $text-gray;
-        }
-        &.is-active {
-            .date, .weekday {
-                color: $active-color;
-            }
-        }
+        width: 65px;
     }
     .calender-button {
         right: 0;
         top: 0;
-        width: 40px;
-        background-color: $background-gray;
-        box-shadow: -1px 0px 7px 0px rgba(151, 151, 151, 0.5);
+        width: 50px;
+        background-color: #f0f;
     }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <ul class="flex flex-wrap">
+    <ul class="flex flex-wrap p-l-5 p-r-5">
         <template
             v-for="competition in competitions"
         >

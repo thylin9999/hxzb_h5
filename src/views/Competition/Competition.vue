@@ -15,20 +15,20 @@
     </div>
     <div class="sub-class p-l-10 p-r-10 p-relative">
         <div class="bottom-line w-100  p-absolute"></div>
-        <ul class="w-100 p-relative z-index-5 flex font-regular align-center">
-            <li
+        <van-tabs
+            v-model="subTabId"
+            title-active-color="#333"
+            title-inactive-color="#333"
+        >
+            <van-tab
                 v-for="subItem in subTabs"
                 :key="subItem.id"
-                class="flex-1 text-center sub-item"
-                :class="{'is-active': subTabId === subItem.id }"
-                @click="changeSubTab(subItem)"
-            >
-                {{ subItem.name }}
-            </li>
-        </ul>
+                :name="subItem.id"
+                :title="subItem.name"></van-tab>
+        </van-tabs>
     </div>
     <div
-        class="competition-section p-l-5 p-r-5"
+        class="competition-section "
         :class="{'p-t-15': isCompetitionList }"
     >
         <component
@@ -43,11 +43,14 @@
 <script>
 import Competitions from '@/views/Competition/Components/Competitions'
 import CompetitionWithTime from '@/views/Competition/Components/CompetitionWithTime'
+import { Tabs, Tab } from 'vant'
 export default {
     name: 'Competition',
     components: {
         Competitions,
-        CompetitionWithTime
+        CompetitionWithTime,
+        [Tabs.name]: Tabs,
+        [Tab.name]: Tab
     },
     data () {
         return {
@@ -167,6 +170,7 @@ export default {
 .competition-section {
     height: calc(100% - 100px);
     padding-bottom: 50px;
+    overflow-x: hidden;
     overflow-y: overlay;
 }
 </style>
