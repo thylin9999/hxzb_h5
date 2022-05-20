@@ -18,19 +18,26 @@
                     </div>
                 </li>
             </ul>
-            <div class="calender-button p-absolute h-100">
-                <span>calender</span>
+            <div
+                class="calender-button p-absolute h-100 bg-center bg-no-repeat"
+                @click="show = true"
+            >
             </div>
+            <van-calendar color="#4859DE" :show-mark="false" v-model="show" :max-date="maxDate" @confirm="onConfirm" />
         </div>
     </div>
 </template>
 
 <script>
+import { Calendar } from 'vant'
 import dayjs from 'dayjs'
 import { weekDay } from '../../../utils/utils'
 const isoweek = require('dayjs/plugin/isoWeek')
 export default {
     name: 'TimeLine',
+    components: {
+        [Calendar.name]: Calendar
+    },
     props: {
         showPrev: {
             type: Boolean,
@@ -39,6 +46,10 @@ export default {
         showDaysNumber: {
             type: Number,
             default: 14
+        },
+        maxDate () {
+            // return this.showPrev ? new Date() : null
+            return new Date(2022, 10, 3)
         }
     },
     data () {
@@ -47,7 +58,8 @@ export default {
             scrollBox: {
                 width: (this.showDaysNumber + 1) * 55 + 40
             },
-            currentDate: dayjs().format('MM-DD')
+            currentDate: dayjs().format('MM-DD'),
+            show: false
         }
     },
     computed: {
@@ -85,6 +97,15 @@ export default {
         },
         choseDate (time) {
             this.currentDate = time.date
+            this.updateTime()
+        },
+        onConfirm (date) {
+            this.show = false
+            this.currentDate = dayjs(date).format('MM-DD')
+            this.updateTime()
+        },
+        updateTime () {
+            this.$emit('update:time', this.currentDate)
         }
     }
 }
@@ -97,6 +118,7 @@ export default {
     width: 375px;
     background-color: $background-gray;
     overflow-x: overlay;
+    border: 1px solid $un-active-color;
     .time-ul {
         width: fit-content;
     }
@@ -121,6 +143,8 @@ export default {
         width: 40px;
         background-color: $background-gray;
         box-shadow: -1px 0px 7px 0px rgba(151, 151, 151, 0.5);
+        background-image: url('../../../assets/images/calender.png');
+        background-size: 18px 18px;
     }
 }
 </style>

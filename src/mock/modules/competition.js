@@ -30,4 +30,31 @@ const getLiveList = config => {
     })
 }
 
+const getBattles = config => {
+    return Mock.mock({
+        code: statusCode.success,
+        'data|0-20': [
+            {
+                id: '@id',
+                'status|1': [1, 2, 3], // 1 未开始, 2 进行中 3 已结束
+                startTime: '@time',
+                'country|1': ['意甲', '荷甲', '英超', '中超', '葡甲'],
+                host: {
+                    id: '@id',
+                    name: '@cname'
+                },
+                teamA: {
+                    name: '@cname',
+                    'score|1': [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                },
+                teamB: {
+                    name: '@cname',
+                    'score|1': [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                }
+            }
+        ]
+    })
+}
+
 Mock.mock(url.getLiveList, 'get', getLiveList)
+Mock.mock(/\/api\/v1\/battles/, 'get', getBattles)

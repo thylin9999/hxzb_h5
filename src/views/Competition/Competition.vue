@@ -13,7 +13,7 @@
             </li>
         </ul>
     </div>
-    <div class="sub-class p-l-10 p-r-10 p-relative">
+    <div class="sub-class  p-relative">
         <div class="bottom-line w-100  p-absolute"></div>
         <van-tabs
             v-model="subTabId"
@@ -82,12 +82,14 @@ export default {
                 {
                     id: 3,
                     name: '赛程',
-                    comName: 'CompetitionWithTime'
+                    comName: 'CompetitionWithTime',
+                    showPrev: false
                 },
                 {
                     id: 4,
                     name: '赛果',
-                    comName: 'CompetitionWithTime'
+                    comName: 'CompetitionWithTime',
+                    showPrev: true
                 }
             ],
             sportTabId: 1,
@@ -103,8 +105,11 @@ export default {
                 subId: this.subTabId
             }
         },
+        currentSubTab () {
+            return this.subTabs.find(x => x.id === this.subTabId)
+        },
         comName () {
-            return this.subTabs.find(x => x.id === this.subTabId).comName
+            return this.currentSubTab.comName
         },
         isCompetitionList () {
             return this.subTabId === 1 || this.subTabId === 2
@@ -113,7 +118,7 @@ export default {
             return this.isCompetitionList ? {
                 params: this.apiParams
             } : {
-
+                showPrev: this.currentSubTab.showPrev
             }
         }
     },
@@ -163,14 +168,24 @@ export default {
     .bottom-line{
         left: 0;
         bottom: 0;
-        height: 2px;
+        height: 1px;
+        z-index: 2;
         background-color: $un-active-color;
     }
 }
 .competition-section {
-    height: calc(100% - 100px);
+    height: calc(100% - 95px);
     padding-bottom: 50px;
     overflow-x: hidden;
     overflow-y: overlay;
+}
+::v-deep {
+    .sub-class {
+        .van-tabs__line {
+            width: 25%;
+            z-index: 3;
+            background-color: $active-color;
+        }
+    }
 }
 </style>
