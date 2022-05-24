@@ -83,7 +83,7 @@
     font-size: 14px;
 }
 .font-16 {
-    font-size: 16px;
+    font-size: 16px !important;
 }
 .font-18 {
     font-size: 18px;
@@ -139,8 +139,20 @@
 .bg-center {
     background-position: center;
 }
+.bg-gray {
+    background-color: $background-gray;
+}
+.bg-white {
+    background-color: #fff;
+}
 
 // z-index
 .z-index-5 {
     z-index: 5;
+}
+
+
+// visible
+.visibility-hidden {
+    visibility: hidden;
 }

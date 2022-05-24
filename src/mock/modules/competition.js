@@ -1,11 +1,15 @@
 import Mock, { Random } from 'mockjs'
 import { statusCode } from '../../utils/statusCode'
 import url from '../../api/competition/url'
+Mock.setup({
+    timeout: 500
+})
 const getLiveList = config => {
     console.log(Random)
     return Mock.mock({
         code: statusCode.success,
         'data|5-20': [{
+            id: '@id',
             team1: {
                 name: '@cname',
                 id: '@id'
@@ -33,6 +37,11 @@ const getLiveList = config => {
 const getBattles = config => {
     return Mock.mock({
         code: statusCode.success,
+        page: {
+            pageSize: 20,
+            count: 500,
+            currentPage: 1
+        },
         'data|0-20': [
             {
                 id: '@id',

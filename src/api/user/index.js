@@ -20,3 +20,10 @@ export function login ({ username = 'admin', password = '000000' }) {
         }
     })
 }
+
+export function getHosts () {
+    return request({
+        method: 'get',
+        url: url.getHosts
+    })
+}

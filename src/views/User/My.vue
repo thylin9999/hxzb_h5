@@ -1,41 +1,54 @@
 <template>
-<div class="w-200 h-100">
+<div class="w-200 h-100 font-regular">
     <div class="header-user w-100 flex p-t-30 bg-no-repeat bg-center p-relative">
-       <div class="m-t-5 flex row w-100 align-center">
-           <div class="app-logo border-50 m-l-20 m-r-15 bg-no-repeat bg-center"></div>
-           <div class="user-name text-color flex flex-column flex-start">
-               <span
-                   class="login-text text-color"
-                   v-if="!userName"
-                   @click="goToLogin"
-               >点击登录</span>
-               <span class="font-12">{{ showUserName }}</span>
-           </div>
-       </div>
-       <div class="download-app w-100 bg-no-repeat bg-center p-absolute"></div>
+        <div class="logo bg-no-repeat bg-center p-absolute"></div>
+
     </div>
-    <div class="content p-t-30">
-        <ul class="user-list p-t-10">
-            <li
-                class="list-item flex justify-between align-center p-l-10 p-r-10"
+    <div class="m-t-5 m-b-10 p-l-25 flex row w-100 align-center">
+        <div
+            class="user-name flex flex-column flex-start"
+            v-if="!userName"
+        >
+           <span
+               class="login-text font-medium d-inline-block m-b-5"
+               v-if="!userName"
+               @click="goToLogin"
+           >登录</span>
+           <span class="font-14 tips m-b-5">点击登录，体验更多功能与互动</span>
+        </div>
+        <div v-else>
+            <span>{{ userName }}</span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="user-list p-t-10 font-regular">
+            <template
                 v-for="item in list"
-                :key="item.key"
             >
-                <div class="flex align-center">
-                    <svg-icon class="m-r-15" :icon-class="item.preIcon"></svg-icon>
-                    <span class="font-12">{{ item.text }}</span>
-                </div>
-                <svg-icon class="after-icon" icon-class="rightArrow"></svg-icon>
-            </li>
-        </ul>
+                <van-cell
+                    :title="item.text"
+                    :icon="item.preIcon"
+                    :key="item.key"
+                    is-link
+                    @click.native="clickRow(item)"
+                >
+                </van-cell>
+            </template>
+        </div>
+
     </div>
 </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { Cell, Icon } from 'vant'
 export default {
     name: 'My.vue',
+    components: {
+        [Cell.name]: Cell,
+        [Icon.name]: Icon
+    },
     computed: {
         ...mapState('user', ['userName']),
         showUserName () {
@@ -47,27 +60,23 @@ export default {
             list: [
                 {
                     key: 'subscribeHost',
-                    preIcon: 'host',
-                    text: '订阅主播',
-                    link: ''
+                    preIcon: 'bar-chart-o',
+                    text: '订阅主播'
                 },
                 {
                     key: 'onlineCustom',
-                    preIcon: 'custom',
-                    text: '在线客服',
-                    link: ''
+                    preIcon: 'service-o',
+                    text: '在线客服'
                 },
                 {
                     key: 'updatePassword',
-                    preIcon: 'safe',
-                    text: '修改密码',
-                    link: ''
+                    preIcon: 'shield-o',
+                    text: '修改密码'
                 },
                 {
                     key: 'advice',
-                    preIcon: 'advice',
-                    text: '意见反馈',
-                    link: ''
+                    preIcon: 'envelop-o',
+                    text: '意见反馈'
                 }
             ]
         }
@@ -77,6 +86,22 @@ export default {
             this.$router.push({
                 name: 'Login'
             })
+        },
+        clickRow (item) {
+            console.log(item, 'item')
+            if (item.key === 'updatePassword') {
+                this.$router.push({
+                    name: 'UpdatePassword'
+                })
+            } else if (item.key === 'subscribeHost') {
+                this.$router.push({
+                    name: 'SubscribeHost'
+                })
+            } else if (item.key === 'advice') {
+                this.$router.push({
+                    name: 'Feedback'
+                })
+            }
         }
     }
 }
@@ -85,37 +110,36 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .header-user {
-    height: 180px;
-    background-image: url('../../assets/old/bg.png');
+    height: 260px;
+    background-image: url('../../assets/images/my/my-bg.png');
     background-size: 100% 100%;
+    .logo {
+        width: 110px;
+        height: 110px;
+        left: 18px;
+        bottom: 10px;
+        background-image: url('../../assets/images/my/logo.png');
+        background-size: 100% 100%;
+    }
     .row {
         height: 66.5px;
     }
-    .app-logo {
-        width: 66.5px;
-        height: 66.5px;
-        background-color: rgba(255, 233, 228, 0.89);
-        background-image: url('../../assets/old/app-icon.png');
-        background-size: auto 80%;
+}
+.user-name {
+    .login-text {
+        font-size: 26px;
+        line-height: 36px;
+        color: #444;
     }
-    .download-app {
-        height: 95.5px;
-        width: 342px;
-        background-image: url('../../assets/old/banner.png');
-        background-size: 100% 100%;
-        top: 125px;
-        left: 16px;
-    }
-    .user-name {
-        .login-text {
-            font-size: 21px;
-            line-height: 30px;
-        }
+    .tips {
+        color: #787878;
     }
 }
 
 .content {
-    height: calc(100% - 180px);
+    height: calc(100% - 340px);
+    overflow-y: overlay;
+    padding-bottom: 50px;
     .list-item {
         height: 50px;
     }
@@ -132,6 +156,21 @@ export default {
             height: 15px;
         }
         border-bottom: 1px solid #f5f6f7;
+    }
+    .user-list {
+        .van-cell {
+            font-size: 16px;
+            font-family: PingFang-SC-Regular;
+            color: #333;
+        }
+        .van-cell__left-icon {
+            font-size: 30px;
+            margin-right: 10px;
+        }
+        .van-cell, .van-icon {
+            line-height: 44px;
+        }
+
     }
 }
 </style>

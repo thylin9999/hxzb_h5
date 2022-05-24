@@ -1,6 +1,7 @@
 <template>
     <div
         class="w-50 p-r-5 p-l-5 p-b-15"
+        @click="goToBroadcast"
     >
         <div class="competition-preview w-100"
              :style="{
@@ -36,6 +37,17 @@ export default {
         competition: {
             type: Object,
             default: () => ({})
+        }
+    },
+    methods: {
+        goToBroadcast () {
+            console.log(this.competition, 'asdf')
+            this.$router.push({
+                name: 'Broadcast',
+                params: {
+                    id: this.competition.id
+                }
+            })
         }
     }
 }

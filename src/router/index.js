@@ -13,7 +13,7 @@ const routes = [
             {
                 path: '/home',
                 name: 'Home',
-                component: () => import(/* webpcakChunkName: "Home" */ '../views/Home.vue')
+                component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
             }
         ]
     },
@@ -26,12 +26,12 @@ const routes = [
             {
                 path: '/user/my',
                 name: 'My',
-                component: () => import(/* webpcakChunkName: "My" */ '../views/User/My.vue')
+                component: () => import(/* webpackChunkName: "My" */ '../views/User/My.vue')
             },
             {
                 path: '/user/login',
                 name: 'Login',
-                component: () => import(/* webpcakChunkName: "My" */ '../views/User/Login.vue'),
+                component: () => import(/* webpackChunkName: "My" */ '../views/User/Login.vue'),
                 meta: {
                     hideFooter: true
                 }
@@ -39,7 +39,31 @@ const routes = [
             {
                 path: '/user/register',
                 name: 'Register',
-                component: () => import(/* webpcakChunkName: "My" */ '../views/User/Register.vue'),
+                component: () => import(/* webpackChunkName: "My" */ '../views/User/Register.vue'),
+                meta: {
+                    hideFooter: true
+                }
+            },
+            {
+                path: '/user/update-password',
+                name: 'UpdatePassword',
+                component: () => import(/* webpackChunkName: "My" */ '../views/User/UpdatePassword.vue'),
+                meta: {
+                    hideFooter: true
+                }
+            },
+            {
+                path: '/user/subscribe-host',
+                name: 'SubscribeHost',
+                component: () => import(/* webpackChunkName: "My" */ '../views/User/SubscribeHost.vue'),
+                meta: {
+                    hideFooter: true
+                }
+            },
+            {
+                path: '/user/feedback',
+                name: 'Feedback',
+                component: () => import(/* webpackChunkName: "My" */ '../views/User/Feedback.vue'),
                 meta: {
                     hideFooter: true
                 }
@@ -49,7 +73,7 @@ const routes = [
     {
         path: '/recommend',
         name: 'Recommend',
-        component: () => import(/* webpcakChunkName: "Recommend" */ '../views/Competition/Recommend.vue'),
+        component: () => import(/* webpackChunkName: "Recommend" */ '../views/Competition/Recommend.vue'),
         meta: {
             name: 'Recommend'
         }
@@ -57,9 +81,17 @@ const routes = [
     {
         path: '/competition',
         name: 'Competition',
-        component: () => import(/* webpcakChunkName: "Recommend" */ '../views/Competition/Competition.vue'),
+        component: () => import(/* webpackChunkName: "Recommend" */ '../views/Competition/Competition.vue'),
         meta: {
             name: 'Competition'
+        }
+    },
+    {
+        path: '/broadcast/:id',
+        name: 'Broadcast',
+        component: () => import(/* webpackChunkName: "Broadcast" */ '../views/Broadcast/Index.vue'),
+        meta: {
+            hideFooter: true
         }
     }
 ]

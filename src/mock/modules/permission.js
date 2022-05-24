@@ -1,6 +1,9 @@
 import Mock, { Random } from 'mockjs'
 import { statusCode } from '../../utils/statusCode'
 import url from '../../api/permission/url'
+Mock.setup({
+    timeout: 500
+})
 const getPermission = config => {
     console.log(Random)
     return Mock.mock({
