@@ -1,5 +1,5 @@
 <template>
-    <div class="seamless-warp" >
+    <div class="seamless-warp m-l-10" >
         <swiper
             v-if="listData.length > 1"
             ref="mySwiper"
@@ -75,7 +75,9 @@ export default {
 
 <style lang="scss" scoped>
 .seamless-warp{
-    width: 375px!important;
+    width: 355px!important;
+    border-radius: 5px;
+    overflow: hidden;
 }
 .swiperslide{
     width: 100% !important;

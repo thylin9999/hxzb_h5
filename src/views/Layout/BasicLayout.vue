@@ -1,6 +1,5 @@
 <template>
     <div class="h-100 basic-layout flex flex-column">
-        <Header />
         <div class="flex-1 content " >
             <router-view class="flex-1 overflow-y-auto"></router-view>
         </div>
@@ -9,12 +8,12 @@
 <script>
 // import LeftMenu from './LeftMenu.vue'
 // import Breadcrumb from './Breadcrumb.vue'
-import Header from './Header.vue'
+// import Header from './Header.vue'
 import { mapState } from 'vuex'
 export default {
     name: 'BasicLayout',
     components: {
-        Header
+        // Header
     },
     computed: {
         ...mapState('user', ['token', 'userName'])

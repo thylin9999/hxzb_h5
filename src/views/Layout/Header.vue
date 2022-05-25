@@ -1,10 +1,10 @@
 <template>
-    <div class=" header flex justify-between align-center p-l-10 p-r-10">
+    <div class=" header flex justify-between align-center p-l-10 p-r-10 m-b-15">
         <div class="logo">
-            <img class="w-100" :src="logo" alt="">
+            <img class="w-100" src="../../assets/images/logo.png" alt="">
         </div>
-        <span>返回首页</span>
-        <span class="download-button d-inline-block text-center text-color">下载APP</span>
+<!--        <span>返回首页</span>-->
+<!--        <span class="download-button d-inline-block text-center text-color">下载APP</span>-->
     </div>
 </template>
 <script>
@@ -21,7 +21,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .header {
-    height: 50px;
+    height: 40px;
     .logo{
         width: 130px;
     }

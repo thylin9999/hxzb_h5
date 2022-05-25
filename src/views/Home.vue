@@ -1,7 +1,10 @@
 <template>
   <div class="home h-100">
-    <div class="swiper w-100">
-        <swiper-banner />
+    <div class="home-header bg-center bg-no-repeat p-t-10">
+        <Header />
+        <div class="swiper w-100">
+            <swiper-banner />
+        </div>
     </div>
     <div class="list m-t-15">
         <div class="list-header flex justify-between align-center p-b-15 p-l-10 p-r-10">
@@ -11,7 +14,7 @@
             </div>
             <div class="font-12 light-text-color font-regular view-more">
                 <span @click="viewMore">查看更多</span>
-                <svg-icon icon-class="rightArrow"></svg-icon>
+                <svg-icon class="icon-13" icon-class="right-arrow"></svg-icon>
             </div>
         </div>
         <div class="list-section p-l-5 p-r-5">
@@ -29,12 +32,14 @@
 import SwiperBanner from '@/components/SwiperBanner'
 import HotIcon from '@/components/HotIcon'
 import Competitions from '@/views/Competition/Components/Competitions'
+import Header from '@/views/Layout/Header'
 export default {
     name: 'Home',
     components: {
         SwiperBanner,
         HotIcon,
-        Competitions
+        Competitions,
+        Header
     },
     data () {
         return {
@@ -61,6 +66,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
+.home-header {
+    background-image: url('../assets/images/home-bg.png');
+    background-size: 100% 100%;
+}
 .swiper {
     height: 150px;
 }

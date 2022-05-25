@@ -1,7 +1,7 @@
 <template>
     <div class="w-100 h-100 login-box bg-center bg-no-repeat p-relative text-color">
         <span class="p-absolute close-button">
-            <svg-icon @click.native="goBack" icon-class="close1"></svg-icon>
+            <svg-icon @click.native="goBack" icon-class="safe"></svg-icon>
         </span>
         <div class="logo-box bg-center bg-no-repeat p-absolute"></div>
         <div class="login-section w-100 h-100">
@@ -10,7 +10,7 @@
                     <!-- 通过 pattern 进行正则校验 -->
                     <input-with-icon class="m-b-10">
                         <span slot="icon" class="flex align-center">
-                            <van-icon name="home-o" />
+                            <svg-icon icon-class="phone"></svg-icon>
                             <span class="m-l-10 font-13">+86</span>
                         </span>
                         <van-field
@@ -21,7 +21,7 @@
                         />
                     </input-with-icon>
                     <input-with-icon v-if="isRegister" class="m-b-10">
-                        <van-icon slot="icon" name="setting-o"></van-icon>
+                        <svg-icon icon-class="safe" slot="icon"></svg-icon>
                         <van-field
                             class="m-l-10"
                             v-model="code"
@@ -34,7 +34,7 @@
                         </template>
                     </input-with-icon>
                     <input-with-icon class="m-b-10">
-                        <van-icon slot="icon" name="setting-o"></van-icon>
+                        <svg-icon icon-class="lock" slot="icon"></svg-icon>
                         <van-field
                             class="m-l-10"
                             v-model="password"

@@ -1,5 +1,5 @@
 <template>
-<span class="hot-icon bg-center bg-no-repeat"></span>
+<span class="hot-icon bg-center bg-no-repeat d-inline-block"></span>
 </template>
 
 <script>
@@ -10,7 +10,9 @@ export default {
 
 <style lang="scss" scoped>
 .hot-icon {
-    background-image: url('../assets/images/hot.png');
+    width: 17px;
+    height: 17px;
+    background-image: url('../assets/images/icons/tv.png');
     background-size: 100% 100%;
 }
 </style>
