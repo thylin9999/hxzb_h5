@@ -9,7 +9,7 @@
     <div class="list m-t-15">
         <div class="list-header flex justify-between align-center p-b-15 p-l-10 p-r-10">
             <div class="hot-recommend flex align-center">
-                <svg-icon class="icon-17" icon-class="tv"></svg-icon>
+                <svg-icon class="icon-17" icon-class="media"></svg-icon>
                 <span class="download-button p-l-5 font-medium font-500">{{ $t('Home.recommendBroadcast')}}</span>
             </div>
             <div class="font-12 light-text-color font-regular view-more">

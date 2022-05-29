@@ -26,11 +26,16 @@
             >
                 <van-cell
                     :title="item.text"
-                    :icon="item.preIcon"
                     :key="item.key"
                     is-link
                     @click.native="clickRow(item)"
                 >
+                    <template #icon>
+                        <svg-icon
+                            class="m-r-15"
+                            :icon-class="item.preIcon"
+                            />
+                    </template>
                 </van-cell>
             </template>
         </div>
@@ -59,23 +64,33 @@ export default {
             list: [
                 {
                     key: 'subscribeHost',
-                    preIcon: 'bar-chart-o',
+                    preIcon: 'wifi',
                     text: '订阅主播'
                 },
                 {
+                    key: 'myBooked',
+                    preIcon: 'calender',
+                    text: '我的预约'
+                },
+                {
                     key: 'onlineCustom',
-                    preIcon: 'service-o',
+                    preIcon: 'custom',
                     text: '在线客服'
                 },
                 {
                     key: 'updatePassword',
-                    preIcon: 'shield-o',
+                    preIcon: 'lock',
                     text: '修改密码'
                 },
                 {
                     key: 'advice',
-                    preIcon: 'envelop-o',
+                    preIcon: 'message',
                     text: '意见反馈'
+                },
+                {
+                    key: 'info',
+                    preIcon: 'info',
+                    text: '消息通知'
                 }
             ]
         }
@@ -162,12 +177,11 @@ export default {
             font-family: PingFang-SC-Regular;
             color: #333;
         }
-        .van-cell__left-icon {
-            font-size: 30px;
-            margin-right: 10px;
-        }
-        .van-cell, .van-icon {
+        .van-cell, .van-icon, .svg-icon {
             line-height: 44px;
+        }
+        .svg-icon{
+            height: 44px;
         }
 
     }

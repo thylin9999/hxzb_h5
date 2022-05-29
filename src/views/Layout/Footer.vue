@@ -7,7 +7,9 @@
             class="flex flex-column flex-1 align-center bar-item"
             @click="goToPage(menu)"
         >
-            <svg-icon :icon-class="menu.icon" />
+            <svg-icon
+                :icon-class="activeId === menu.id ? menu.icon + '_sel' : menu.icon"
+            />
             <span class="m-t-5 font-16 font-regular">{{ menu.name }}</span>
         </li>
     </ul>
@@ -41,13 +43,27 @@ export default {
                     id: 4,
                     name: '我的',
                     key: 'My',
-                    icon: 'my'
+                    icon: 'person'
                 }
-            ]
+            ],
+            activeId: 1
+        }
+    },
+    watch: {
+        $route: {
+            handler () {
+                const icon = this.$route.meta.icon
+                if (icon) {
+                    this.activeId = this.menus.find(x => x.icon === icon).id
+                }
+            },
+            immediate: true,
+            deep: true
         }
     },
     methods: {
         goToPage (menu) {
+            this.activeId = menu.id
             this.$router.push({
                 name: menu.key
             })

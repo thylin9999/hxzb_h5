@@ -13,7 +13,10 @@ const routes = [
             {
                 path: '/home',
                 name: 'Home',
-                component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
+                component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue'),
+                meta: {
+                    icon: 'home'
+                }
             }
         ]
     },
@@ -26,7 +29,10 @@ const routes = [
             {
                 path: '/user/my',
                 name: 'My',
-                component: () => import(/* webpackChunkName: "My" */ '../views/User/My.vue')
+                component: () => import(/* webpackChunkName: "My" */ '../views/User/My.vue'),
+                meta: {
+                    icon: 'person'
+                }
             },
             {
                 path: '/user/login',
@@ -75,7 +81,8 @@ const routes = [
         name: 'Recommend',
         component: () => import(/* webpackChunkName: "Recommend" */ '../views/Competition/Recommend.vue'),
         meta: {
-            name: 'Recommend'
+            name: 'Recommend',
+            icon: 'competition'
         }
     },
     {
@@ -83,7 +90,8 @@ const routes = [
         name: 'Competition',
         component: () => import(/* webpackChunkName: "Recommend" */ '../views/Competition/Competition.vue'),
         meta: {
-            name: 'Competition'
+            name: 'Competition',
+            icon: 'competition'
         }
     },
     {
@@ -91,7 +99,8 @@ const routes = [
         name: 'Broadcast',
         component: () => import(/* webpackChunkName: "Broadcast" */ '../views/Broadcast/Index.vue'),
         meta: {
-            hideFooter: true
+            hideFooter: true,
+            icon: 'competition'
         }
     }
 ]

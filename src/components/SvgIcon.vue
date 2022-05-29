@@ -1,20 +1,18 @@
 <template>
-<!--  <svg :class="svgClass" aria-hidden="true" v-on="$listeners">-->
-<!--    <use :xlink:href="iconName" />-->
-<!--  </svg>-->
-    <icon-com
-        :class="className"
-        :icon="iconClass"
-    />
+  <svg :class="svgClass" aria-hidden="true" v-on="$listeners">
+    <use :xlink:href="iconName" />
+  </svg>
+<!--    <icon-com-->
+<!--        :class="className"-->
+<!--        :icon="iconClass"-->
+<!--    />-->
 </template>
 
 <script>
 import iconMap from '../utils/enums'
-import IconCom from '@/components/IconCom'
 export default {
     name: 'SvgIcon',
     components: {
-        IconCom
     },
     props: {
         iconClass: {
