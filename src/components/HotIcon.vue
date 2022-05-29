@@ -10,9 +10,8 @@ export default {
 
 <style lang="scss" scoped>
 .hot-icon {
-    width: 17px;
-    height: 17px;
-    background-image: url('../assets/images/icons/tv.png');
+    background-image: url('../assets/images/icons/hot.png');
     background-size: 100% 100%;
+    vertical-align: top;
 }
 </style>

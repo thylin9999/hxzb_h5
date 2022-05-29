@@ -1,6 +1,10 @@
 <template>
 <div class="w-100 h-100">
-    <header-with-back title="推荐直播"/>
+    <van-nav-bar
+        title="推荐直播"
+        left-arrow
+        @click-left="onClickLeft"
+    />
     <div class="competition-section p-t-5">
         <Competitions
             :params="apiParams"
@@ -10,13 +14,13 @@
 </template>
 
 <script>
-import HeaderWithBack from '@/views/Layout/HeaderWithBack'
 import Competitions from '@/views/Competition/Components/Competitions'
+import { NavBar } from 'vant'
 export default {
     name: 'Recommend',
     components: {
-        HeaderWithBack,
-        Competitions
+        Competitions,
+        [NavBar.name]: NavBar
     },
     data () {
         return {
@@ -38,6 +42,9 @@ export default {
     created () {
     },
     methods: {
+        onClickLeft () {
+            this.$router.go(-1)
+        }
     }
 }
 </script>

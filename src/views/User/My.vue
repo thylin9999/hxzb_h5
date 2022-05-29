@@ -2,7 +2,6 @@
 <div class="w-200 h-100 font-regular">
     <div class="header-user w-100 flex p-t-30 bg-no-repeat bg-center p-relative">
         <div class="logo bg-no-repeat bg-center p-absolute"></div>
-
     </div>
     <div class="m-t-5 m-b-10 p-l-25 flex row w-100 align-center">
         <div

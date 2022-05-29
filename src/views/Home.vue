@@ -9,12 +9,12 @@
     <div class="list m-t-15">
         <div class="list-header flex justify-between align-center p-b-15 p-l-10 p-r-10">
             <div class="hot-recommend flex align-center">
-                <hot-icon class="h-100 d-inline-block"/>
+                <svg-icon class="icon-17" icon-class="tv"></svg-icon>
                 <span class="download-button p-l-5 font-medium font-500">{{ $t('Home.recommendBroadcast')}}</span>
             </div>
             <div class="font-12 light-text-color font-regular view-more">
                 <span @click="viewMore">查看更多</span>
-                <svg-icon class="icon-13" icon-class="right-arrow"></svg-icon>
+                <van-icon name="arrow" color="#8D8D8D"></van-icon>
             </div>
         </div>
         <div class="list-section p-l-5 p-r-5">
@@ -30,16 +30,16 @@
 <script>
 // @ is an alias to /src
 import SwiperBanner from '@/components/SwiperBanner'
-import HotIcon from '@/components/HotIcon'
+import { Icon } from 'vant'
 import Competitions from '@/views/Competition/Components/Competitions'
 import Header from '@/views/Layout/Header'
 export default {
     name: 'Home',
     components: {
         SwiperBanner,
-        HotIcon,
         Competitions,
-        Header
+        Header,
+        [Icon.name]: Icon
     },
     data () {
         return {
@@ -92,9 +92,10 @@ export default {
 
 ::v-deep {
     .view-more {
-        .svg-icon {
+        .icon {
             width: 16px;
             height: 16px;
+            background-size: 8px 16px;
             fill: $light-text-color;
         }
     }

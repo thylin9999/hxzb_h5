@@ -66,7 +66,7 @@ export default {
 }
 .host-info {
     .hot-icon {
-        width: 10px;
+        width: 8px;
         height: 10px;
         margin-right: 3px;
     }

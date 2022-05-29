@@ -4,7 +4,7 @@
         <li
             v-for="menu in menus"
             :key="menu.key"
-            class="flex flex-column flex-1 align-center"
+            class="flex flex-column flex-1 align-center bar-item"
             @click="goToPage(menu)"
         >
             <svg-icon :icon-class="menu.icon" />
@@ -48,7 +48,6 @@ export default {
     },
     methods: {
         goToPage (menu) {
-            console.log(menu)
             this.$router.push({
                 name: menu.key
             })
@@ -65,9 +64,12 @@ export default {
     background-color: #fff;
 }
 ::v-deep {
-    .icon {
-        width: 20px;
-        height: 20px;
+    .bar-item {
+        .icon {
+            width: 22px;
+            height: 20px;
+        }
     }
+
 }
 </style>
