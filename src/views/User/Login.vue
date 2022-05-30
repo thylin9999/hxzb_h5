@@ -34,7 +34,7 @@
                         </template>
                     </input-with-icon>
                     <input-with-icon class="m-b-10">
-                        <svg-icon icon-class="lock" slot="icon"></svg-icon>
+                        <svg-icon icon-class="password" slot="icon"></svg-icon>
                         <van-field
                             class="m-l-10"
                             v-model="password"

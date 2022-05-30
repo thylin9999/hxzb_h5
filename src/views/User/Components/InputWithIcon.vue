@@ -26,4 +26,10 @@ export default {
         width: 90px;
     }
 }
+::v-deep {
+    .svg-icon {
+        width: 14px;
+        max-height: 20px;
+    }
+}
 </style>
