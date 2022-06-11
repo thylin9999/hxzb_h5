@@ -23,6 +23,13 @@
                 :key="updateKey"
             />
         </div>
+        <div class="copyright ">
+            <div class="first-line font-12 font-regular text-center">
+                软件名称：<span>{{ appInfo.name }}</span> <span>|</span>
+                开发者: {{ appInfo.developer }} <span>|</span>
+                版本：{{ appInfo.version }} <span>|</span> <br/> 更新时间: <span>{{ appInfo.updateTime }}</span>
+            </div>
+        </div>
     </div>
   </div>
 </template>
@@ -33,6 +40,7 @@ import SwiperBanner from '@/components/SwiperBanner'
 import { Icon } from 'vant'
 import Competitions from '@/views/Competition/Components/Competitions'
 import Header from '@/views/Layout/Header'
+import dayjs from 'dayjs'
 export default {
     name: 'Home',
     components: {
@@ -44,7 +52,13 @@ export default {
     data () {
         return {
             banner: 'https://cdn.podapi.com/image/slide/20210930/aa47247b900012c9e5236744adfa087b.png',
-            updateKey: +new Date().getTime()
+            updateKey: +new Date().getTime(),
+            appInfo: {
+                name: '海豹直播app',
+                developer: '成都五五柒柒科技有限公司',
+                version: 'v.1.0',
+                updateTime: dayjs().format('YYYY-MM-DD')
+            }
         }
     },
     computed: {
@@ -89,7 +103,10 @@ export default {
         }
     }
 }
-
+.first-line {
+    padding: 10px 20px;
+    line-height: 20px;
+}
 ::v-deep {
     .view-more {
         .icon {
