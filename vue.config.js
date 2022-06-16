@@ -57,16 +57,21 @@ module.exports = {
         config.module
             .rule('images')
             .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+        config.plugin('html')
+            .tap((args) => {
+                args[0].title = process.env.VUE_APP_APP_NAME
+                return args
+            })
     },
     devServer: {
         proxy: {
-            '/api/v1': { // 代理 所有  /api/v1 开头的 请求
+            '/api': { // 代理 所有  /api/v1 开头的 请求
                 // 这样写就可以了
-                target: process.env.VUE_PROXY_HOST,
-                changeOrigin: true // 跨域
-                // pathRewrite: {
-                //   '^/api/v1': '/api/v1'
-                // }
+                target: 'http://api.wuhaicj.com',
+                changeOrigin: true, // 跨域
+                pathRewrite: {
+                    '^/api': '/api'
+                }
             }
             // '/api/v2': { // 代理 所有  /api/v1 开头的 请求
             //     // 这样写就可以了

@@ -1,4 +1,4 @@
-import { getUserInfo, login } from '../../api/user'
+import { getUserInfo, login, register } from '../../api/user'
 import { setToken, removeToken } from '../../utils/cookie'
 import { statusCode } from '../../utils/statusCode'
 const state = {
@@ -18,16 +18,35 @@ const actions = {
             return false
         }
     },
-    async login ({ state, dispatch, commit }) {
+    async login ({ state, dispatch, commit }, payload) {
         try {
-            const { data } = await login({})
+            const { data } = await login(payload)
+            console.log(data, 'data')
             if (data.code === statusCode.success) {
                 setToken(data.data)
                 commit('SET', { token: data.data })
                 console.log(state, 'asdf')
                 return {
-                    status: data.code
+                    code: data.code
                 }
+            } else {
+                return data
+            }
+        } catch (error) {
+            console.error(error, 'error')
+        }
+    },
+    async register ({ state, dispatch, commit }, payload) {
+        try {
+            const { data } = await register(payload)
+            if (data.code === statusCode.success) {
+                setToken(data.data)
+                commit('SET', { token: data.data })
+                return {
+                    code: data.code
+                }
+            } else {
+                return data
             }
         } catch (error) {
             console.error(error, 'error')

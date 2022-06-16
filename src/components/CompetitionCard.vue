@@ -41,7 +41,6 @@ export default {
     },
     methods: {
         goToBroadcast () {
-            console.log(this.competition, 'asdf')
             this.$router.push({
                 name: 'Broadcast',
                 params: {

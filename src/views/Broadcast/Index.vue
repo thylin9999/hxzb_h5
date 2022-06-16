@@ -1,5 +1,5 @@
 <template>
-<div class="broadcast h-100">
+<div class="broadcast h-100" :key="updateKey">
     <van-nav-bar
         title="直播详情"
         left-arrow
@@ -34,6 +34,7 @@ import ChatRoom from '@/views/Broadcast/components/ChatRoom'
 import Host from '@/views/Broadcast/components/Host'
 export default {
     name: 'Index',
+    props: ['id'],
     components: {
         [NavBar.name]: NavBar,
         [Tab.name]: Tab,
@@ -60,7 +61,8 @@ export default {
                     com: 'Host'
                 }
             ],
-            currentTab: 1
+            currentTab: 1,
+            updateKey: +new Date().getTime()
             // contentComp: 'ChatRoom'
         }
     },
@@ -69,9 +71,17 @@ export default {
             return this.tabs.find(x => x.id === this.currentTab).com
         }
     },
+    watch: {
+        id () {
+            if (this.id) {
+                // 重新加载页面
+                this.updateKey = +new Date().getTime()
+            }
+        }
+    },
     methods: {
         onClickLeft () {
-            this.$router.go(-1)
+            this.$router.push('/')
         }
     }
 }

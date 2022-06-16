@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="h-100 overflow-y-auto">
     <div class="host-header flex justify-between font-regular align-center p-l-10 p-r-10">
         <div class="user-info flex align-center">
             <div class="user-icon bg-center bg-no-repeat"></div>
@@ -15,12 +15,54 @@
             <span class="font-12 text-color d-inline-block text-center">订阅</span>
         </div>
     </div>
+    <div class="recommend m-t-20">
+        <div class="list-header flex justify-between align-center p-b-15 p-l-10 p-r-10">
+            <div class="hot-recommend flex align-center">
+                <svg-icon class="icon-17" icon-class="media"></svg-icon>
+                <span class="download-button p-l-5 font-medium font-500">{{ $t('Home.recommendBroadcast')}}</span>
+            </div>
+            <div class="font-12 light-text-color font-regular view-more">
+                <span @click="viewMore">换一批</span>
+                <van-icon name="arrow" color="#8D8D8D"></van-icon>
+            </div>
+        </div>
+        <div class="list-section p-l-5 p-r-5">
+            <Competitions
+                :params="apiParams"
+                :key="updateKey"
+            />
+        </div>
+    </div>
 </div>
 </template>
 
 <script>
+import Competitions from '@/views/Competition/Components/Competitions'
+import { Icon } from 'vant'
 export default {
-    name: 'Host'
+    name: 'Host',
+    components: {
+        Competitions,
+        [Icon.name]: Icon
+    },
+    data () {
+        return {
+            updateKey: +new Date().getTime()
+        }
+    },
+    computed: {
+        apiParams () {
+            return {
+                sportId: this.sportTabId,
+                subId: this.subTabId
+            }
+        }
+    },
+    methods: {
+        viewMore () {
+            console.log('viewMore')
+        }
+    }
 }
 </script>
 

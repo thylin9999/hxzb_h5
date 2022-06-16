@@ -2,6 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import BasicLayout from '@/views/Layout/BasicLayout'
 import EmptyRouterView from '@/views/Layout/EmptyRouterView'
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (location) {
+    return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -98,6 +103,7 @@ const routes = [
         path: '/broadcast/:id',
         name: 'Broadcast',
         component: () => import(/* webpackChunkName: "Broadcast" */ '../views/Broadcast/Index.vue'),
+        props: true,
         meta: {
             hideFooter: true,
             icon: 'competition'

@@ -121,6 +121,7 @@ export default {
     border: 1px solid $un-active-color;
     .time-ul {
         width: fit-content;
+        padding-right: 45px;
     }
     .time-item {
         width: 55px;

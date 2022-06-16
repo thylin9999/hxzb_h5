@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Mock from 'mockjs'
 import { statusCode } from '../../utils/statusCode'
 import url from '../../api/user/url'
@@ -46,6 +47,6 @@ const getHosts = config => {
         ]
     })
 }
-Mock.mock(url.login, 'post', login)
+// Mock.mock(url.login, 'post', login)
 Mock.mock(/\/api\/v1\/user\/info/, 'get', userInfo)
 Mock.mock(url.getHosts, 'get', getHosts)
