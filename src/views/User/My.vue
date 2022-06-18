@@ -1,7 +1,12 @@
 <template>
 <div class="w-200 h-100 font-regular">
     <div class="header-user w-100 flex p-t-30 bg-no-repeat bg-center p-relative">
-        <div class="logo bg-no-repeat bg-center p-absolute"></div>
+        <div
+            class="logo bg-no-repeat bg-center p-absolute"
+            :style="{
+                backgroundImage: `url(${userLogo})`
+            }"
+        ></div>
     </div>
     <div class="m-t-5 m-b-10 p-l-25 flex row w-100 align-center">
         <div
@@ -54,10 +59,13 @@ export default {
         [Icon.name]: Icon
     },
     computed: {
-        ...mapState('user', ['nickname', 'token']),
+        ...mapState('user', ['nickname', 'token', 'avatar']),
         ...mapGetters('user', ['isLogin']),
         showUserName () {
             return this.isLogin ? this.isLogin : '您当前是游客身份'
+        },
+        userLogo () {
+            return this.avatar ? this.avatar : require('../../assets/images/my/logo.png')
         }
     },
     data () {
@@ -140,7 +148,7 @@ export default {
         height: 110px;
         left: 18px;
         bottom: 10px;
-        background-image: url('../../assets/images/my/logo.png');
+        //background-image: url('../../assets/images/my/logo.png');
         background-size: 100% 100%;
     }
     .row {

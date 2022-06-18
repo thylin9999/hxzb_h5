@@ -14,12 +14,12 @@
                             <span class="m-l-10 font-13">+86</span>
                         </span>
                         <van-field
-                            class="m-l-10 text-color"
+                            class="p-l-10 p-r-25 text-color"
                             v-model="form.account.value"
                             placeholder="请输入账号"
                         />
                     </input-with-icon>
-                    <input-with-icon v-if="showCode" class="m-b-10">
+                    <input-with-icon v-if="showCode" class="m-b-10" :has-suffix="true">
                         <svg-icon icon-class="safe" slot="icon"></svg-icon>
                         <van-field
                             class="m-l-10"
@@ -34,7 +34,8 @@
                     <input-with-icon class="m-b-10">
                         <svg-icon icon-class="password" slot="icon"></svg-icon>
                         <van-field
-                            class="m-l-10"
+                            class="p-l-10 p-r-25"
+                            type="password"
                             v-model="form.password.value"
                             name="密码"
                             placeholder="请输入密码"
@@ -53,7 +54,6 @@
                 </van-form>
             </div>
         </div>
-        <van-loading type="spinner" v-if="showLoading"/>
     </div>
 </template>
 <script>
@@ -93,18 +93,23 @@ export default {
             errorInfo: [],
             isRegister: false,
             showCode: false,
-            showLoading: false
+            showLoading: true
         }
     },
     methods: {
         ...mapActions('user', ['login', 'register']),
         async submit () {
             const request = this.isRegister ? this.register : this.login
+            Toast.loading({
+                duration: 0,
+                forbidClick: true
+            })
             const res = await request({
                 account: this.form.account.value,
                 password: this.form.password.value
             })
             console.log(res, 'res')
+            Toast.clear()
             if (res.code === statusCode.success) {
                 // 登录or注册成功
                 if (this.isRegister) {

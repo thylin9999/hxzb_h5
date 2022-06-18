@@ -6,7 +6,7 @@
     <div class="flex-1">
         <slot/>
     </div>
-   <div class="suffix-button">
+   <div class="suffix-button" v-if="hasSuffix">
        <slot name="suffix"/>
    </div>
 </div>
@@ -14,7 +14,13 @@
 
 <script>
 export default {
-    name: 'InputWithIcon'
+    name: 'InputWithIcon',
+    props: {
+        hasSuffix: {
+            type: Boolean,
+            default: false
+        }
+    }
 }
 </script>
 
