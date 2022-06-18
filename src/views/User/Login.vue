@@ -104,8 +104,9 @@ export default {
                 account: this.form.account.value,
                 password: this.form.password.value
             })
+            console.log(res, 'res')
             if (res.code === statusCode.success) {
-                // 登录成功
+                // 登录or注册成功
                 if (this.isRegister) {
                     Toast(codeMap.registerSuccess)
                     const account = this.form.account.value

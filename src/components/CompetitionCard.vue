@@ -4,23 +4,25 @@
         @click="goToBroadcast"
     >
         <div class="competition-preview w-100"
+             :class="{
+                'bg-size-auto': !competition.live_cover,
+                'bg-size-100': competition.live_cover
+             }"
              :style="{
-                backgroundImage: `url(${competition.img})`
+                backgroundImage: `url(${bgImg})`
             }"
         >
         </div>
         <div class="competition-name text-black-3 p-t-10 p-b-5 font-14 flex justify-between align-center font-regular">
-            <span>{{ competition.team1.name }}</span>
-            <span>VS</span>
-            <span>{{ competition.team2.name }}</span>
+            <span>{{ competition.room_title  }}</span>
         </div>
         <div class="host-info text-gray font-12 font-regular flex justify-between align-center">
-            <span>{{ competition.user.name }}</span>
+            <span>{{ competition.nick }}</span>
             <div class="flex justify-between align-center">
                             <span class="d-inline-block hot-icon">
                                 <hot-icon class="h-100 d-inline-block"/>
                             </span>
-                <span>{{ competition.user.viewers.count }}</span>
+                <span>{{ competition.heat_num }}</span>
             </div>
         </div>
     </div>
@@ -37,6 +39,13 @@ export default {
         competition: {
             type: Object,
             default: () => ({})
+        }
+    },
+    computed: {
+        bgImg () {
+            return this.competition.live_cover
+                ? 'https://file.wanmeiyx.com/images/liveScreenShot/live_cover_sd-1-3680754.jpg'
+                : require('../assets/images/common/host-blank.png')
         }
     },
     methods: {
@@ -56,7 +65,8 @@ export default {
 .competition-preview {
     border-radius: 5px;
     height: 110px;
-    background-size: 100% auto;
+    background-color: #f2f2f2;
+    //background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: center;
 }

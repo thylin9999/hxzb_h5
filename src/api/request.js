@@ -1,5 +1,6 @@
 import axios from 'axios'
-
+import { statusCode } from '@/utils/statusCode'
+import url from './user/url'
 const instance = axios.create({
     timeout: 6000
 })
@@ -15,8 +16,17 @@ instance.interceptors.request.use(config => {
 }, errorHandle)
 
 instance.interceptors.response.use(response => {
+    const requestUrl = response.config.url
+    const whiteList = [
+        url.login,
+        url.register
+    ]
     // 响应拦截器
-    return response
+    if (response && response.data.code === statusCode.success && !whiteList.includes(requestUrl)) {
+        return response.data
+    } else {
+        return response
+    }
 }, errorHandle)
 
 export default instance

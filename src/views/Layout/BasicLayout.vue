@@ -9,17 +9,15 @@
 // import LeftMenu from './LeftMenu.vue'
 // import Breadcrumb from './Breadcrumb.vue'
 // import Header from './Header.vue'
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
+// import { getItem } from '@/utils/cookie'
+
 export default {
     name: 'BasicLayout',
     components: {
         // Header
-    },
-    computed: {
-        ...mapState('user', ['token', 'userName'])
-    },
-    mounted () {
     }
+
 }
 </script>
 <style lang="scss" scoped>

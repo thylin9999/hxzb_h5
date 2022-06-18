@@ -6,17 +6,16 @@
     <div class="m-t-5 m-b-10 p-l-25 flex row w-100 align-center">
         <div
             class="user-name flex flex-column flex-start"
-            v-if="!userName"
+            v-if="!isLogin"
         >
            <span
                class="login-text font-medium d-inline-block m-b-5"
-               v-if="!userName"
                @click="goToLogin"
            >登录</span>
            <span class="font-14 tips m-b-5">点击登录，体验更多功能与互动</span>
         </div>
         <div v-else>
-            <span>{{ userName }}</span>
+            <span>{{ nickname }}</span>
         </div>
     </div>
     <div class="content">
@@ -25,6 +24,7 @@
                 v-for="item in list"
             >
                 <van-cell
+                    v-if="item.key !== 'logout' || (item.key === 'logout' && isLogin)"
                     :title="item.text"
                     :key="item.key"
                     is-link
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { Cell, Icon } from 'vant'
 export default {
     name: 'My.vue',
@@ -54,9 +54,10 @@ export default {
         [Icon.name]: Icon
     },
     computed: {
-        ...mapState('user', ['userName']),
+        ...mapState('user', ['nickname', 'token']),
+        ...mapGetters('user', ['isLogin']),
         showUserName () {
-            return this.userName ? this.userName : '您当前是游客身份'
+            return this.isLogin ? this.isLogin : '您当前是游客身份'
         }
     },
     data () {
@@ -91,18 +92,23 @@ export default {
                     key: 'info',
                     preIcon: 'info',
                     text: '消息通知'
+                },
+                {
+                    key: 'logout',
+                    preIcon: 'info',
+                    text: '退出'
                 }
             ]
         }
     },
     methods: {
+        ...mapActions('user', ['logoutAction']),
         goToLogin () {
             this.$router.push({
                 name: 'Login'
             })
         },
         clickRow (item) {
-            console.log(item, 'item')
             if (item.key === 'updatePassword') {
                 this.$router.push({
                     name: 'UpdatePassword'
@@ -115,6 +121,8 @@ export default {
                 this.$router.push({
                     name: 'Feedback'
                 })
+            } else {
+                this.logoutAction()
             }
         }
     }

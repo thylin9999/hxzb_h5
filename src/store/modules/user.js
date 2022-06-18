@@ -1,9 +1,15 @@
 import { getUserInfo, login, register } from '../../api/user'
-import { setToken, removeToken } from '../../utils/cookie'
+import { setToken, removeToken, setItem } from '../../utils/cookie'
 import { statusCode } from '../../utils/statusCode'
 const state = {
     age: null,
-    userName: null,
+    account: '',
+    avatar: null,
+    birth: null,
+    level: 1,
+    member_id: null,
+    nickname: '',
+    sign: null,
     token: null // token
 }
 
@@ -21,11 +27,13 @@ const actions = {
     async login ({ state, dispatch, commit }, payload) {
         try {
             const { data } = await login(payload)
-            console.log(data, 'data')
             if (data.code === statusCode.success) {
-                setToken(data.data)
-                commit('SET', { token: data.data })
-                console.log(state, 'asdf')
+                setToken(data.token)
+                const params = {
+                    ...data.data, token: data.token
+                }
+                setItem('userInfo', JSON.stringify(params))
+                commit('SET', params)
                 return {
                     code: data.code
                 }
@@ -39,9 +47,8 @@ const actions = {
     async register ({ state, dispatch, commit }, payload) {
         try {
             const { data } = await register(payload)
+            console.log(data, 'data')
             if (data.code === statusCode.success) {
-                setToken(data.data)
-                commit('SET', { token: data.data })
                 return {
                     code: data.code
                 }
@@ -72,7 +79,9 @@ const mutations = {
 }
 
 const getters = {
-
+    isLogin (state) {
+        return !!state.token
+    }
 }
 
 export default {

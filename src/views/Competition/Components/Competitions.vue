@@ -14,7 +14,7 @@
 <script>
 import CompetitionCard from '@/components/CompetitionCard'
 import { getLiveList } from '@/api/competition'
-import { statusCode } from '@/utils/statusCode'
+// import { statusCode } from '@/utils/statusCode'
 
 export default {
     name: 'Competitions',
@@ -38,9 +38,9 @@ export default {
     methods: {
         async fetchData () {
             const { data } = await getLiveList(this.params)
-            if (data.code === statusCode.success) {
-                this.competitions = data.data
-            }
+            console.log(data, 'data')
+            this.competitions = data.list
+            console.log(this.competitions, 'asfd')
         }
     }
 }
