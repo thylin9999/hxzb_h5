@@ -3,7 +3,7 @@ import { statusCode } from '@/utils/statusCode'
 import url from './user/url'
 const instance = axios.create({
     timeout: 6000,
-    baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : ''
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : '/'
 })
 
 const errorHandle = (error) => {

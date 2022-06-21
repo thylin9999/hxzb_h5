@@ -14,8 +14,8 @@
 <script>
 import CompetitionCard from '@/components/CompetitionCard'
 import { getLiveList } from '@/api/competition'
+import { Toast } from 'vant'
 // import { statusCode } from '@/utils/statusCode'
-
 export default {
     name: 'Competitions',
     props: {
@@ -25,6 +25,7 @@ export default {
         }
     },
     components: {
+        [Toast.name]: Toast,
         CompetitionCard
     },
     data () {
@@ -37,10 +38,16 @@ export default {
     },
     methods: {
         async fetchData () {
-            const { data } = await getLiveList(this.params)
-            console.log(data, 'data')
-            this.competitions = data.list
-            console.log(this.competitions, 'asfd')
+            try {
+                Toast.loading({
+                    duration: 0,
+                    forbidClick: true
+                })
+                const { data } = await getLiveList(this.params)
+                this.competitions = data.list
+            } finally {
+                Toast.clear()
+            }
         }
     }
 }

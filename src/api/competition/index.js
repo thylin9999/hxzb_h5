@@ -15,3 +15,14 @@ export function getBattles ({ date }) {
         }
     })
 }
+
+export function getBookedMatches ({ pageNumber = 1, pageSize = 20 }) {
+    return request({
+        method: 'post',
+        url: url.getBookedMatches,
+        data: {
+            pageNum: pageNumber,
+            pageSize
+        }
+    })
+}

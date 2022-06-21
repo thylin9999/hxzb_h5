@@ -6,10 +6,11 @@
             <swiper-banner />
         </div>
     </div>
+      <booked-matches />
     <div class="list m-t-15">
         <div class="list-header flex justify-between align-center p-b-15 p-l-10 p-r-10">
             <div class="hot-recommend flex align-center">
-                <svg-icon class="icon-17" icon-class="media"></svg-icon>
+                <span class="tv-icon bg-center bg-size-100 bg-no-repeat"></span>
                 <span class="download-button p-l-5 font-medium font-500">{{ $t('Home.recommendBroadcast')}}</span>
             </div>
             <div class="font-12 light-text-color font-regular view-more">
@@ -39,6 +40,7 @@
 import SwiperBanner from '@/components/SwiperBanner'
 import { Icon } from 'vant'
 import Competitions from '@/views/Competition/Components/Competitions'
+import BookedMatches from '@/components/BookedMatches'
 import Header from '@/views/Layout/Header'
 import dayjs from 'dayjs'
 export default {
@@ -47,6 +49,7 @@ export default {
         SwiperBanner,
         Competitions,
         Header,
+        BookedMatches,
         [Icon.name]: Icon
     },
     data () {
@@ -91,15 +94,22 @@ export default {
     background-color: rgb(247,247,247);
 }
 .list-section {
-
+    min-height: 200px;
 }
 .list-header {
     font-size: 15px;
     .hot-recommend {
         line-height: 22px;
         height: 22px;
-        .hot-icon {
+        .tv-icon {
             width: 17px;
+            height: 17px;
+            background-image: url('../assets/images/icons/tv.png');
+        }
+        .match-icon {
+            width: 17px;
+            height: 17px;
+            background-image: url('../assets/images/icons/match.png');
         }
     }
 }
