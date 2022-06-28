@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './modules/user'
+import commonData from '@/store/modules/commonData'
 // import permission from './modules/permission'
 Vue.use(Vuex)
 
@@ -9,7 +10,8 @@ export default new Vuex.Store({
     mutations: {},
     actions: {},
     modules: {
-        user
+        user,
+        commonData
         // permission
     }
 })
