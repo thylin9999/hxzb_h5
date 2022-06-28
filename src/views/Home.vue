@@ -2,6 +2,7 @@
   <div class="home h-100">
     <div class="home-header bg-center bg-no-repeat p-t-10">
         <Header />
+        <HeaderTab class="m-b-5" :tab-id="tabId"/>
         <div class="swiper w-100">
             <swiper-banner />
         </div>
@@ -42,6 +43,7 @@ import { Icon } from 'vant'
 import Competitions from '@/views/Competition/Components/Competitions'
 import BookedMatches from '@/components/BookedMatches'
 import Header from '@/views/Layout/Header'
+import HeaderTab from '@/components/HeaderTab'
 import dayjs from 'dayjs'
 export default {
     name: 'Home',
@@ -50,6 +52,7 @@ export default {
         Competitions,
         Header,
         BookedMatches,
+        HeaderTab,
         [Icon.name]: Icon
     },
     data () {
@@ -61,7 +64,8 @@ export default {
                 developer: '成都五五柒柒科技有限公司',
                 version: 'v.1.0',
                 updateTime: dayjs().format('YYYY-MM-DD')
-            }
+            },
+            tabId: 1 // 首页tab
         }
     },
     computed: {
