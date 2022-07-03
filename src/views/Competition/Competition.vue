@@ -31,24 +31,29 @@
         class="competition-section "
         :class="{'p-t-15': isCompetitionList }"
     >
-        <component
-            :is="comName"
+<!--        <component-->
+<!--            :is="comName"-->
+<!--            :key="updateKey"-->
+<!--            :league-type="sportTabId"-->
+<!--            :playing="subTabId"-->
+<!--        ></component>-->
+        <CompetitionSchedule
+            :show-time-line="showTimeLine"
             :key="updateKey"
-            v-bind="attrs"
-        ></component>
+            :league-type="sportTabId"
+            :playing="subTabId"
+        />
     </div>
 </div>
 </template>
 
 <script>
-import Competitions from '@/views/Competition/Components/Competitions'
-import CompetitionWithTime from '@/views/Competition/Components/CompetitionWithTime'
+import CompetitionSchedule from '@/views/Competition/Components/CompetitionSchedule'
 import { Tabs, Tab } from 'vant'
 export default {
     name: 'Competition',
     components: {
-        Competitions,
-        CompetitionWithTime,
+        CompetitionSchedule,
         [Tabs.name]: Tabs,
         [Tab.name]: Tab
     },
@@ -64,36 +69,36 @@ export default {
                     name: '篮球'
                 },
                 {
-                    id: 3,
+                    id: 4,
                     name: '其他'
                 }
             ],
             subTabs: [
                 {
-                    id: 1,
+                    id: 5,
                     name: '全部',
-                    comName: 'Competitions'
+                    comName: 'CompetitionSchedule'
                 },
                 {
-                    id: 2,
+                    id: 2000,
                     name: '进行中',
-                    comName: 'Competitions'
+                    comName: 'CompetitionSchedule'
                 },
                 {
-                    id: 3,
+                    id: 1000,
                     name: '赛程',
                     comName: 'CompetitionWithTime',
                     showPrev: false
                 },
                 {
-                    id: 4,
+                    id: 3000,
                     name: '赛果',
                     comName: 'CompetitionWithTime',
                     showPrev: true
                 }
             ],
             sportTabId: 1,
-            subTabId: 1,
+            subTabId: 5,
             competitions: [],
             updateKey: +new Date().getTime()
         }
@@ -111,15 +116,11 @@ export default {
         comName () {
             return this.currentSubTab.comName
         },
+        showTimeLine () {
+            return [1000, 3000].includes(this.subTabId)
+        },
         isCompetitionList () {
             return this.subTabId === 1 || this.subTabId === 2
-        },
-        attrs () {
-            return this.isCompetitionList ? {
-                params: this.apiParams
-            } : {
-                showPrev: this.currentSubTab.showPrev
-            }
         }
     },
     watch: {
@@ -130,7 +131,7 @@ export default {
     methods: {
         changeSportTab (tab) {
             this.sportTabId = tab.id
-            this.subTabId = 1
+            // this.subTabId = 5
         },
         changeSubTab (subItem) {
             this.subTabId = subItem.id

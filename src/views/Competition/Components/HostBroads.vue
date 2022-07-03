@@ -2,12 +2,14 @@
     <div>
       <ul v-if="competitions.length" class="flex flex-wrap p-l-5 p-r-5">
         <template
-            v-for="battle in competitions"
+            v-for="competition in competitions"
+
         >
-          <competition-battle
-              :battle="battle"
-              :key="battle.id"
+          <competition-card
+              :key="competition.id"
+              :competition="competition"
           />
+
         </template>
       </ul>
       <van-empty
@@ -20,31 +22,42 @@
 </template>
 
 <script>
-import CompetitionBattle from '@/views/Competition/Components/CompetitionBattle'
-import { getOnlineBroadcast } from '@/api/Host'
+import CompetitionCard from '@/components/CompetitionCard'
+import { getLiveList } from '@/api/competition'
 import { Toast, Empty } from 'vant'
 import { statusCode } from '@/utils/statusCode'
-// import { statusCode } from '@/utils/statusCode'
 export default {
-    name: 'Competitions',
+    name: 'HostBroads',
     props: {
-        params: {
-            type: Object,
-            default: () => ({})
+        tabId: {
+            type: [String, Number],
+            default: 5
         }
     },
     components: {
         [Toast.name]: Toast,
         [Empty.name]: Empty,
-        CompetitionBattle
+        CompetitionCard
     },
     data () {
         return {
             competitions: []
         }
     },
-    created () {
-        this.fetchData()
+    computed: {
+        apiParams () {
+            return {
+                type: this.tabId === 5 ? 0 : this.tabId
+            }
+        }
+    },
+    watch: {
+        tabId: {
+            handler () {
+                this.fetchData()
+            },
+            immediate: true
+        }
     },
     methods: {
         async fetchData () {
@@ -53,8 +66,8 @@ export default {
                     duration: 0,
                     forbidClick: true
                 })
-                const { data, code, msg } = await getOnlineBroadcast(this.params)
-
+                console.log(this.apiParams, this.tabId, 'asdf')
+                const { code, data, msg } = await getLiveList(this.apiParams)
                 if (code === statusCode.success) {
                     this.competitions = data ? data.list : []
                 } else {

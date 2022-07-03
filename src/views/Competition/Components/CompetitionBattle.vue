@@ -4,47 +4,62 @@
         <div class="team-a flex justify-between">
             <div class="team-info">
                 <span class="team-icon">
-                    <van-icon name="fire-o" color="#ee0a24" />
+                  <span class="bg"
+                    :style="{
+                      backgroundImage: `url(${battle.homeLogo})`
+                    }"
+                  > </span>
                 </span>
-                <span class="m-l-10">{{ battle.teamA.name }}</span>
+                <span class="m-l-10 d-inline-block team-name text-ellipsis">{{ battle.homeChs }}</span>
             </div>
-            <span class="score text-center">{{ battle.teamA.score}}</span>
+            <span class="score text-center">{{ battle.homeScore }}</span>
         </div>
         <div class="team-b flex justify-between">
             <div class="team-info ">
                 <span class="team-icon">
-                    <van-icon name="fire-o" color="#ee0a24" />
+                  <span class="bg"
+                        :style="{
+                      backgroundImage: `url(${battle.awayLogo})`
+                    }"
+                  ></span>
                 </span>
-                <span class="m-l-10">{{ battle.teamB.name }}</span>
+                <span class="m-l-10 d-inline-block team-name text-ellipsis">{{ battle.awayChs }}</span>
             </div>
-            <span class="score text-center">{{ battle.teamB.score }}</span>
+            <span class="score text-center">{{ battle.awayScore }}</span>
         </div>
     </div>
     <div class="score-time p-t-10 p-b-10 flex-column flex justify-between align-center">
-        <span class="battle-time">{{ battle.startTime }}</span>
+        <span class="battle-time">{{ battle.matchTime | timeFilter }}</span>
         <span
             class="battle-status font-500"
             :class="{
-                'is-end': battle.status === 3,
-                'is-going': battle.status === 2
+                'is-end': battle.state === -1,
+                'is-going':isGoing
             }"
         >
-            {{ battle.statusName }}
+            {{ statusString }}
         </span>
     </div>
     <div class="host flex-column flex justify-between m-t-15 m-b-15 text-right">
-        <span class="battle-country">{{ battle.country}}</span>
-        <span class="host-name text-gray">
-            {{ battle.host.id ? battle.host.name : '暂无主播' }}
+        <span class="battle-country">{{ battle.leagueChsShort }}</span>
+        <span class="host-name text-gray" v-if="!hasHosts">
+            暂无主播
         </span>
     </div>
 </div>
 </template>
 
 <script>
+import { matchStatus } from '@/utils/utils'
 import { Icon } from 'vant'
+import dayjs from 'dayjs'
 export default {
     name: 'CompetitionBattle',
+    filters: {
+        timeFilter (value) {
+            return dayjs(value).format('HH:mm')
+        }
+    },
     components: {
         [Icon.name]: Icon
     },
@@ -53,6 +68,20 @@ export default {
             type: Object,
             default: () => ({})
         }
+    },
+    computed: {
+        isGoing () {
+            return !matchStatus[this.battle.state]
+        },
+        hasHosts () {
+            return !!this.battle.anchor_list.length
+        },
+        statusString () {
+            return this.isGoing ? '进行中' : '已结束'
+        }
+        // homeLogo () {
+        //     return this.battle.homeLogo ? this.battle.homeLogo : require('')
+        // }
     }
 }
 </script>
@@ -67,6 +96,25 @@ export default {
     font-size: 13px;
     .team-info {
         width: 100px;
+      .team-name {
+        width: 65px;
+      }
+      .team-icon {
+        width: 18px;
+        height: 18px;
+        border: 1px solid #E4E4E4;
+        border-radius: 50%;
+        display: inline-block;
+        .bg {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+        }
+      }
     }
     .score {
         width: 35px;

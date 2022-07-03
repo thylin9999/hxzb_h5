@@ -12,7 +12,7 @@
                 class="swiperslide"
             >
                 <div class="listdata h-100" >
-                    <img class="w-100 h-100" :src="item.url" alt="">
+                    <img class="w-100 h-100" :src="item.local" alt="">
                 </div>
             </swiper-slide>
             <div class="swiper-pagination p-r-5" slot="pagination"></div>
@@ -45,26 +45,14 @@ export default {
                 {
                     id: 1,
                     title: 'title1',
-                    local: '../assets/banners/banner1',
+                    local: require('../assets/images/banners/1.jpg'),
                     url: 'https://cdn.podapi.com/image/slide/20210930/38c8c91a0ce02be8a5f3727b06013e28.png'
                 },
                 {
                     id: 2,
                     title: 'title2',
-                    local: '../assets/banners/banner2',
+                    local: require('../assets/images/banners/2.jpg'),
                     url: 'https://cdn.podapi.com/image/slide/20210930/7660e33b2a333d9d6f3374f05616f8cc.png'
-                },
-                {
-                    id: 3,
-                    title: 'title3',
-                    local: '../assets/banners/banner3',
-                    url: 'https://cdn.podapi.com/image/slide/20210930/aa47247b900012c9e5236744adfa087b.png'
-                },
-                {
-                    id: 4,
-                    title: 'title4',
-                    local: '../assets/banners/banner4',
-                    url: 'https://cdn.podapi.com/image/slide/20210930/37c7723e49d7866d61b9da1d537a79fd.png'
                 }
             ]
         }

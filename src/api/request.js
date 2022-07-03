@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { statusCode } from '@/utils/statusCode'
+import { getToken } from '@/utils/cookie'
 import url from './user/url'
 const instance = axios.create({
     timeout: 6000,
@@ -13,6 +14,10 @@ const errorHandle = (error) => {
 
 instance.interceptors.request.use(config => {
     // 请求拦截器
+    const token = getToken()
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
     return config
 }, errorHandle)
 
@@ -26,7 +31,7 @@ instance.interceptors.response.use(response => {
     if (response && response.data.code === statusCode.success && !whiteList.includes(requestUrl)) {
         return response.data
     } else {
-        return response
+        return response.data
     }
 }, errorHandle)
 

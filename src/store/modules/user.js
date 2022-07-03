@@ -1,6 +1,6 @@
-import { getUserInfo, login, register } from '../../api/user'
+import { getUserInfo, login, register, logout } from '../../api/user'
 import { setToken, removeToken, setItem, removeSessionStorageItem } from '../../utils/cookie'
-import { statusCode } from '../../utils/statusCode'
+import { statusCode } from '@/utils/statusCode'
 const state = {
     age: null,
     account: '',
@@ -17,7 +17,7 @@ const actions = {
     async getUserInfo ({ state, dispatch, commit, getters }) {
         try {
             const { data } = await getUserInfo()
-            commit('SET', data.data)
+            commit('SET', data)
             return true
         } catch (error) {
             console.log(error, 'error')
@@ -26,19 +26,19 @@ const actions = {
     },
     async login ({ state, dispatch, commit }, payload) {
         try {
-            const { data } = await login(payload)
-            if (data.code === statusCode.success) {
-                setToken(data.token)
+            const { code, data, msg, token } = await login(payload)
+            if (code === statusCode.success) {
+                setToken(token)
                 const params = {
-                    ...data.data, token: data.token
+                    ...data, token
                 }
                 setItem('userInfo', JSON.stringify(params))
                 commit('SET', params)
                 return {
-                    code: data.code
+                    code
                 }
             } else {
-                return data
+                return { code, msg, data: null }
             }
         } catch (error) {
             console.error(error, 'error')
@@ -46,26 +46,25 @@ const actions = {
     },
     async register ({ state, dispatch, commit }, payload) {
         try {
-            const { data } = await register(payload)
-            console.log(data, 'data')
-            if (data.code === statusCode.success) {
-                return {
-                    code: data.code
-                }
-            } else {
-                return data
-            }
+            const { code, msg, data } = await register(payload)
+            return { code, msg, data }
         } catch (error) {
             console.error(error, 'error')
         }
     },
-    logoutAction ({ state, dispatch, commit }) {
+    async logoutAction ({ state, dispatch, commit }) {
         // 菜单等 路由信息也应该删除。。。
         // 去除token
-        removeToken()
-        removeSessionStorageItem('userInfo')
-        // 删除用户信息
-        commit('SET', { token: null, nickname: null, age: null })
+        try {
+            await logout()
+        } catch (e) {
+            console.log('出错了')
+        } finally {
+            removeToken()
+            removeSessionStorageItem('userInfo')
+            // 删除用户信息
+            commit('SET', { token: null, nickname: null, age: null })
+        }
     }
 }
 

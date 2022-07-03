@@ -2,7 +2,7 @@
 <div class="w-200 h-100 font-regular">
     <div class="header-user w-100 flex p-t-30 bg-no-repeat bg-center p-relative">
         <div
-            class="logo bg-no-repeat bg-center p-absolute"
+            class="logo bg-no-repeat border-50 bg-center p-absolute"
             :style="{
                 backgroundImage: `url(${userLogo})`
             }"
@@ -65,7 +65,7 @@ export default {
             return this.isLogin ? this.isLogin : '您当前是游客身份'
         },
         userLogo () {
-            return this.avatar ? this.avatar : require('../../assets/images/my/logo.png')
+            return this.token ? this.avatar : require('../../assets/images/my/logo.png')
         }
     },
     data () {
@@ -91,16 +91,16 @@ export default {
                     preIcon: 'lock',
                     text: '修改密码'
                 },
-                {
-                    key: 'advice',
-                    preIcon: 'message',
-                    text: '意见反馈'
-                },
-                {
-                    key: 'info',
-                    preIcon: 'info',
-                    text: '消息通知'
-                },
+                // {
+                //     key: 'advice',
+                //     preIcon: 'message',
+                //     text: '意见反馈'
+                // },
+                // {
+                //     key: 'info',
+                //     preIcon: 'info',
+                //     text: '消息通知'
+                // },
                 {
                     key: 'logout',
                     preIcon: 'info',
@@ -129,8 +129,10 @@ export default {
                 this.$router.push({
                     name: 'Feedback'
                 })
-            } else {
+            } else if (item.key === 'logout') {
                 this.logoutAction()
+            } else {
+
             }
         }
     }
