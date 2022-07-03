@@ -31,12 +31,6 @@
         class="competition-section "
         :class="{'p-t-15': isCompetitionList }"
     >
-<!--        <component-->
-<!--            :is="comName"-->
-<!--            :key="updateKey"-->
-<!--            :league-type="sportTabId"-->
-<!--            :playing="subTabId"-->
-<!--        ></component>-->
         <CompetitionSchedule
             :show-time-line="showTimeLine"
             :key="updateKey"

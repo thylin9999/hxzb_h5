@@ -1,6 +1,6 @@
 <template>
     <div class="w-100 h-100 login-box bg-center bg-no-repeat p-relative text-color">
-        <span class="p-absolute close-button">
+        <span class="p-absolute close-button" @click="goBack">
             <van-icon name="cross"></van-icon>
         </span>
         <div class="logo-box bg-center bg-no-repeat p-absolute"></div>
@@ -28,7 +28,7 @@
                             placeholder="请输入验证码"
                         />
                         <template slot="suffix">
-                            <span class="font-13 font-regular" @click="getValidateCode">获取验证码</span>
+                            <span class="font-13 font-regular" @click="getValidateCode">{{ codeString }}</span>
                         </template>
                     </input-with-icon>
                     <input-with-icon class="m-b-10">
@@ -93,7 +93,15 @@ export default {
             errorInfo: [],
             isRegister: false,
             showCode: true,
-            showLoading: true
+            showLoading: true,
+            timeLeft: process.env.VUE_APP_CODE_TIME,
+            canNotSend: false, // 是否为发送验证码
+            timer: null
+        }
+    },
+    computed: {
+        codeString () {
+            return this.canNotSend ? `${this.timeLeft}s` : '获取验证码'
         }
     },
     methods: {
@@ -147,9 +155,25 @@ export default {
             }
             return flag
         },
+        beginTimer () {
+            this.canNotSend = true
+            window.clearImmediate(this.timer)
+            this.timer = null
+            this.timer = setInterval(() => {
+                if (this.timeLeft > 1) {
+                    this.timeLeft--
+                } else {
+                    this.initTimer()
+                }
+            }, 1000)
+        },
         async getValidateCode () {
+            if (this.canNotSend) {
+                return
+            }
             const isOk = this.validateRow('account')
             if (isOk) {
+                this.beginTimer()
                 try {
                     const { code, msg } = await getCode({
                         mobile: this.form.account.value
@@ -198,8 +222,8 @@ export default {
         },
         registerOrLogin () {
             this.isRegister = !this.isRegister
-            // this.showCode = !!this.isRegister
             this.initForm()
+            this.initTimer()
         },
         initForm () {
             this.errorInfo = []
@@ -207,11 +231,21 @@ export default {
                 this.form[key].value = ''
             })
         },
+        initTimer () {
+            this.canNotSend = false
+            window.clearImmediate(this.timer)
+            this.timer = null
+            this.timeLeft = process.env.VUE_APP_CODE_TIME
+        },
         goBack () {
             this.$router.push({
                 name: 'My'
             })
         }
+    },
+    beforeDestroy () {
+        window.clearImmediate(this.timer)
+        this.timer = null
     }
 }
 </script>
@@ -277,6 +311,10 @@ export default {
             color: #4859DE;
         }
     }
-
+    .login-section{
+        .suffix-button {
+            text-align: center;
+        }
+    }
 }
 </style>

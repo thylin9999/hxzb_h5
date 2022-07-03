@@ -18,6 +18,7 @@
                 <competition-battle
                     :battle="battle"
                     :key="battle.id"
+                    @refresh="fetchData"
                 />
             </template>
         </ul>
@@ -72,7 +73,8 @@ export default {
                 // eslint-disable-next-line eqeqeq
                 playing: this.playing == 5 ? null : this.playing,
                 leagueType: this.leagueType,
-                day: this.showTimeLine ? this.currentTime : null
+                // eslint-disable-next-line eqeqeq
+                day: this.showTimeLine ? this.currentTime : (this.playing == 5 ? dayjs().format('YYYY-MM-DD') : null)
             }
         },
         showPrev () {
@@ -91,7 +93,6 @@ export default {
                     forbidClick: true
                 })
                 const { data, code, msg } = await getMatchList(this.apiParams)
-                console.log(data, 'data')
                 if (code === statusCode.success) {
                     this.competitions = data ? data.list : []
                 } else {

@@ -32,6 +32,7 @@
         <span class="battle-time">{{ battle.matchTime | timeFilter }}</span>
         <span
             class="battle-status font-500"
+            @click="subscribeHost"
             :class="{
                 'is-end': isEnd,
                 'is-going': isGoing
@@ -45,14 +46,26 @@
         <span class="host-name text-gray" v-if="!hasHosts">
             暂无主播
         </span>
+        <div class="anchors">
+          <span
+              v-for="anchor in battle.anchor_list"
+              :key="anchor.room_id"
+              class="item bg-center d-inline-block bg-no-repeat bg-size-100 border-50"
+              :style="{
+                backgroundImage: anchor.img ? `url(${anchor.img})` : `url(${hostIcon})`
+              }"
+          ></span>
+        </div>
     </div>
 </div>
 </template>
 
 <script>
 import { matchStatus } from '@/utils/utils'
-import { Icon } from 'vant'
+import { addSubscribeMatch } from '@/api/competition'
+import { Icon, Toast } from 'vant'
 import dayjs from 'dayjs'
+import { statusCode } from '@/utils/statusCode'
 export default {
     name: 'CompetitionBattle',
     filters: {
@@ -61,7 +74,8 @@ export default {
         }
     },
     components: {
-        [Icon.name]: Icon
+        [Icon.name]: Icon,
+        [Toast.name]: Toast
     },
     props: {
         battle: {
@@ -81,16 +95,34 @@ export default {
             // eslint-disable-next-line eqeqeq
             return this.battle.state == 0
         },
-
+        isAppointment () {
+            // eslint-disable-next-line eqeqeq
+            return !(this.battle.appointment && this.battle.appointment * 1 === 2)
+        },
         hasHosts () {
             return !!this.battle.anchor_list.length
         },
         statusString () {
-            return this.isEnd ? '已结束' : (this.isNotStart ? '未开始' : '进行中')
+            return this.isEnd ? '已结束' : (this.isNotStart ? (this.isAppointment ? '取消预约' : '预约') : '进行中')
+        },
+        hostIcon () {
+            return require('../../../assets/images/chat/user-logo.jpeg')
         }
-        // homeLogo () {
-        //     return this.battle.homeLogo ? this.battle.homeLogo : require('')
-        // }
+    },
+    methods: {
+        async subscribeHost () {
+            try {
+                const { code, msg } = await addSubscribeMatch(this.battle.matchId)
+                if (code === statusCode.success) {
+                    Toast(msg)
+                    this.$emit('refresh')
+                } else {
+                    Toast(msg)
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
+        }
     }
 }
 </script>
@@ -149,6 +181,12 @@ export default {
     .host{
         width: 80px;
         border-left: 1px solid $un-active-color;
+      .anchors {
+        .item {
+          width: 20px;
+          height: 20px;
+        }
+      }
     }
 }
 </style>
