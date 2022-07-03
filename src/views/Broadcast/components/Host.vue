@@ -18,7 +18,8 @@
     <div class="recommend m-t-20">
         <div class="list-header flex justify-between align-center p-b-15 p-l-10 p-r-10">
             <div class="hot-recommend flex align-center">
-                <svg-icon class="icon-17" icon-class="media"></svg-icon>
+<!--                <svg-icon class="icon-17" icon-class="media"></svg-icon>-->
+                <span class="tv-icon bg-center bg-size-100 bg-no-repeat"></span>
                 <span class="download-button p-l-5 font-medium font-500">{{ $t('Home.recommendBroadcast')}}</span>
             </div>
             <div class="font-12 light-text-color font-regular view-more">
@@ -27,9 +28,7 @@
             </div>
         </div>
         <div class="list-section p-l-5 p-r-5">
-            <Competitions
-                :params="apiParams"
-                :key="updateKey"
+            <HostBroads
             />
         </div>
     </div>
@@ -37,12 +36,12 @@
 </template>
 
 <script>
-import Competitions from '@/views/Competition/Components/Competitions'
+import HostBroads from '@/views/Competition/Components/HostBroads'
 import { Icon } from 'vant'
 export default {
     name: 'Host',
     components: {
-        Competitions,
+        HostBroads,
         [Icon.name]: Icon
     },
     data () {
@@ -60,7 +59,9 @@ export default {
     },
     methods: {
         viewMore () {
-            console.log('viewMore')
+            this.$router.push({
+                name: 'Recommend'
+            })
         }
     }
 }
@@ -82,6 +83,13 @@ export default {
     line-height: 20px;
     span {
         width: 50px;
+    }
+}
+.hot-recommend {
+    .tv-icon {
+        width: 17px;
+        height: 17px;
+        background-image: url('../../../assets/images/icons/tv.png');
     }
 }
 ::v-deep {

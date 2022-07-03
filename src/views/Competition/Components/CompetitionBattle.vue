@@ -33,8 +33,8 @@
         <span
             class="battle-status font-500"
             :class="{
-                'is-end': battle.state === -1,
-                'is-going':isGoing
+                'is-end': isEnd,
+                'is-going': isGoing
             }"
         >
             {{ statusString }}
@@ -73,11 +73,20 @@ export default {
         isGoing () {
             return !matchStatus[this.battle.state]
         },
+        isEnd () {
+            return !!matchStatus[this.battle.state]
+        },
+        isNotStart () {
+            // 未开始
+            // eslint-disable-next-line eqeqeq
+            return this.battle.state == 0
+        },
+
         hasHosts () {
             return !!this.battle.anchor_list.length
         },
         statusString () {
-            return this.isGoing ? '进行中' : '已结束'
+            return this.isEnd ? '已结束' : (this.isNotStart ? '未开始' : '进行中')
         }
         // homeLogo () {
         //     return this.battle.homeLogo ? this.battle.homeLogo : require('')
