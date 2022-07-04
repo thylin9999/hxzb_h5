@@ -2,13 +2,14 @@
 <div class="box w-100 flex justify-between align-center">
    <div class="input-with-send flex align-center flex-1 p-r-5">
        <van-field class="p-l-15 p-r-5" clearable v-model="newMessage" placeholder="和大家聊聊..." />
-       <van-button mini type="info">发送</van-button>
+       <van-button mini type="info" @click="sendMesage">发送</van-button>
    </div>
 </div>
 </template>
 
 <script>
-import { Field, Button } from 'vant'
+import { Field, Button, Toast } from 'vant'
+import { mapGetters } from 'vuex'
 export default {
     name: 'InputMessage',
     components: {
@@ -18,6 +19,20 @@ export default {
     data () {
         return {
             newMessage: ''
+        }
+    },
+    computed: {
+        ...mapGetters('user', ['isLogin'])
+    },
+    methods: {
+        sendMesage () {
+            if (!this.newMessage.trim().length) return
+            if (!this.isLogin) {
+                Toast('请先登录')
+            } else {
+                this.$emit('getMsg', this.newMessage)
+                this.newMessage = ''
+            }
         }
     }
 }

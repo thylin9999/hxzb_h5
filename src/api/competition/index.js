@@ -11,6 +11,23 @@ export function getLiveList ({ pageNumber = 1, pageSize = 2000, type = 0 }) {
         }
     })
 }
+
+export function getRoomInfo (data) { // 直播间信息
+    return request({
+        method: 'post',
+        url: url.getRoomInfo,
+        data
+    })
+}
+
+export function subscribeHost (data) { //  预约主播
+    return request({
+        method: 'post',
+        url: url.subscribeHost,
+        data
+    })
+}
+
 export function getBattles ({ date }) {
     return request({
         method: 'get',
@@ -41,6 +58,7 @@ export function addSubscribeMatch (matchId) {
         }
     })
 }
+
 // 赛程
 export function getMatchList ({
     pageNumber = 1,

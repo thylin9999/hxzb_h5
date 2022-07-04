@@ -1,30 +1,30 @@
 <template>
-<div class="broadcast h-100" :key="updateKey">
-    <van-nav-bar
-        title="直播详情"
-        left-arrow
-        @click-left="onClickLeft"
-    />
-    <div class="view-video">
-        <video-display />
+    <div class="broadcast h-100" :key="updateKey" v-if="roomInfo">
+        <van-nav-bar
+                title="直播详情"
+                left-arrow
+                @click-left="onClickLeft"
+        />
+        <div class="view-video">
+            <video-display :videoInfo="roomInfo" />
+        </div>
+        <div class="chat-host-live-broadcast">
+            <van-tabs
+                    v-model="currentTab"
+                    title-active-color="#333"
+                    title-inactive-color="#333"
+            >
+                <van-tab
+                        v-for="tab in tabs"
+                        :key="tab.id"
+                        :name="tab.id"
+                        :title="tab.text"></van-tab>
+            </van-tabs>
+        </div>
+        <div class="host-component">
+            <component :roomInfo="roomInfo" :anchorInfo="anchorInfo" :is="contentComp"></component>
+        </div>
     </div>
-    <div class="chat-host-live-broadcast">
-        <van-tabs
-            v-model="currentTab"
-            title-active-color="#333"
-            title-inactive-color="#333"
-        >
-            <van-tab
-                v-for="tab in tabs"
-                :key="tab.id"
-                :name="tab.id"
-                :title="tab.text"></van-tab>
-        </van-tabs>
-    </div>
-    <div class="host-component">
-        <component :is="contentComp"></component>
-    </div>
-</div>
 </template>
 
 <script>
@@ -32,6 +32,8 @@ import { Tab, Tabs, NavBar } from 'vant'
 import VideoDisplay from '@/components/VideoDisplay'
 import ChatRoom from '@/views/Broadcast/components/ChatRoom'
 import Host from '@/views/Broadcast/components/Host'
+import { getRoomInfo } from '@/api/competition'
+
 export default {
     name: 'Index',
     props: ['id'],
@@ -45,6 +47,8 @@ export default {
     },
     data () {
         return {
+            roomInfo: null,
+            anchorInfo: null,
             tabs: [
                 {
                     id: 1,
@@ -79,24 +83,36 @@ export default {
             }
         }
     },
+    mounted () {
+        this.init()
+    },
     methods: {
+        async init () {
+            const { data, code } = await getRoomInfo({ room_id: this.$route.query.room_id })
+            if (code === 200) {
+                this.roomInfo = data.room_info
+                this.anchorInfo = data.anchor_info
+            }
+        },
         onClickLeft () {
             this.$router.push('/')
         }
+
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.host-component{
+  .host-component {
     height: calc(100% - 320px);
-}
-::v-deep {
+  }
+
+  ::v-deep {
     .chat-host-live-broadcast {
-        .van-tabs__line {
-            width: 96px;
-        }
+      .van-tabs__line {
+        width: 96px;
+      }
     }
 
-}
+  }
 </style>

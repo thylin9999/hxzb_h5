@@ -54,7 +54,8 @@ export default {
                 name: 'Broadcast',
                 params: {
                     id: this.competition.id
-                }
+                },
+                query: { room_id: this.competition.room_id }
             })
         }
     }

@@ -1,9 +1,9 @@
 <template>
 <div class="message-row flex font-regular">
     <div class="icon bg-center  bg-no-repeat"></div>
-    <div class="message-box flex-1 p-l-10">
-        <span class="font-12 text-gray user-name">用户名</span>
-        <div class="message font-14 text-black-3">阿斯顿发大水发斯蒂芬阿斯顿发送到发斯蒂芬阿斯蒂芬阿斯顿法师打发是的法师打发阿斯顿法师打发是的法师打发</div>
+    <div class="message-box flex-1 p-l-10" v-if="['1010','1040'].includes(msgCon.type)">
+        <span class="font-12 text-gray user-name">{{ msgCon.nickname }}</span>
+        <div class="message font-14 text-black-3">{{ msgCon.msg }}</div>
     </div>
 </div>
 </template>
@@ -15,6 +15,12 @@ export default {
         isMe: {
             type: Boolean,
             default: false
+        },
+        msgCon: {
+            type: [Object, String],
+            default: function () {
+                return {}
+            }
         }
     }
 }
