@@ -14,7 +14,7 @@
         >
         </div>
         <div class="competition-name text-black-3 p-t-10 p-b-5 font-14 flex justify-between align-center font-regular">
-            <span>{{ competition.room_title  }}</span>
+            <span class="d-inline-block text-ellipsis">{{ competition.room_title  }}</span>
         </div>
         <div class="host-info text-gray font-12 font-regular flex justify-between align-center">
             <span>{{ competition.nick }}</span>

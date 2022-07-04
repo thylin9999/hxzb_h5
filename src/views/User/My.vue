@@ -51,12 +51,13 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-import { Cell, Icon } from 'vant'
+import { Cell, Icon, Toast } from 'vant'
 export default {
     name: 'My.vue',
     components: {
         [Cell.name]: Cell,
-        [Icon.name]: Icon
+        [Icon.name]: Icon,
+        [Toast.name]: Toast
     },
     computed: {
         ...mapState('user', ['nickname', 'token', 'avatar']),
@@ -66,6 +67,9 @@ export default {
         },
         userLogo () {
             return this.token ? this.avatar : require('../../assets/images/my/logo.png')
+        },
+        needTokens () {
+            return ['updatePassword', 'subscribeHost', 'myBooked', 'info', 'advice']
         }
     },
     data () {
@@ -117,6 +121,10 @@ export default {
             })
         },
         clickRow (item) {
+            if (!this.token && this.needTokens.includes(item.key)) {
+                Toast('请先登录')
+                return
+            }
             if (item.key === 'updatePassword') {
                 this.$router.push({
                     name: 'UpdatePassword'
