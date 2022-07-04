@@ -1,7 +1,7 @@
 <template>
 <div class="w-100 h-100">
     <van-nav-bar
-        title="推荐直播"
+        title="所有直播"
         left-arrow
         @click-left="onClickLeft"
     />
