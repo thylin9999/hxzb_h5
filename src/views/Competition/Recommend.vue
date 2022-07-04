@@ -6,20 +6,19 @@
         @click-left="onClickLeft"
     />
     <div class="competition-section p-t-5">
-        <Competitions
-            :params="apiParams"
+        <HostBroads
         />
     </div>
 </div>
 </template>
 
 <script>
-import Competitions from '@/views/Competition/Components/Competitions'
+import HostBroads from '@/views/Competition/Components/HostBroads'
 import { NavBar } from 'vant'
 export default {
     name: 'Recommend',
     components: {
-        Competitions,
+        HostBroads,
         [NavBar.name]: NavBar
     },
     data () {

@@ -7,7 +7,7 @@
             >
                 <li
                     class="time-item font-12 p-t-5 p-b-5"
-                    v-for="time in times"
+                    v-for="time in dates"
                     :key="time.date"
                     :class="{'is-active': currentDate === time.date }"
                     @click="choseDate(time)"
@@ -23,7 +23,12 @@
                 @click="show = true"
             >
             </div>
-            <van-calendar color="#4859DE" :show-mark="false" v-model="show" :max-date="maxDate" @confirm="onConfirm" />
+            <van-calendar
+                color="#4859DE"
+                :show-mark="false"
+                v-model="show"
+                :min-date="timeRange.minDate"
+                :max-date="timeRange.maxDate" @confirm="onConfirm" />
         </div>
     </div>
 </template>
@@ -55,14 +60,54 @@ export default {
     data () {
         return {
             times: [],
-            scrollBox: {
-                width: (this.showDaysNumber + 1) * 55 + 40
-            },
             currentDate: dayjs().format('MM-DD'),
+            currentTime: '',
             show: false
         }
     },
     computed: {
+        dates () {
+            // 赛程往后14天，赛果，往前 7天
+            const dates = []
+            if (this.showPrev) {
+                // 赛程
+                for (let i = 0; i <= 14; i++) {
+                    const date = dayjs().add(i, 'day')
+                    dates.push({
+                        id: dayjs(date).format('YYYY-MM-DD'),
+                        date: dayjs(date).format('MM-DD'),
+                        week: dayjs(date).isoWeekday(),
+                        weekName: weekDay[dayjs(date).isoWeekday()]
+                    })
+                }
+            } else {
+                for (let i = 0; i <= 7; i++) {
+                    const date = dayjs().subtract(i, 'day')
+                    dates.unshift({
+                        id: dayjs(date).format('YYYY-MM-DD'),
+                        date: dayjs(date).format('MM-DD'),
+                        week: dayjs(date).isoWeekday(),
+                        weekName: weekDay[dayjs(date).isoWeekday()]
+                    })
+                }
+            }
+            return dates
+        },
+        timeRange () {
+            if (this.dates && this.dates.length) {
+                return {
+                    minDate: new Date(this.dates[0].id),
+                    maxDate: new Date(this.dates[this.dates.length - 1].id)
+                }
+            } else {
+                return {}
+            }
+        },
+        scrollBox () {
+            return {
+                width: this.dates.length * 55 + 40
+            }
+        },
         scrollStyle () {
             return {
                 width: this.scrollBox.width + 'px'
@@ -71,41 +116,22 @@ export default {
     },
     created () {
         dayjs.extend(isoweek)
-        this.initTimes()
     },
     methods: {
-        initTimes () {
-            const list = []
-            list.push({
-                date: dayjs().format('MM-DD'),
-                week: dayjs().isoWeekday(),
-                weekName: weekDay[dayjs().isoWeekday()]
-            })
-            for (let i = 1; i <= this.showDaysNumber; i++) {
-                const num = this.showPrev ? -i : i
-                const time = dayjs().add(num, 'day')
-                const date = dayjs(time).format('MM-DD')
-                const week = dayjs(time).isoWeekday()
-                list.push({
-                    date,
-                    week,
-                    weekName: weekDay[week]
-                })
-            }
-            // dayjs().date(1).add(1, 'month').subtract(1, 'day')
-            this.times = list
-        },
         choseDate (time) {
             this.currentDate = time.date
+            this.currentTime = time.id
             this.updateTime()
         },
         onConfirm (date) {
             this.show = false
             this.currentDate = dayjs(date).format('MM-DD')
+            this.currentTime = dayjs(date).format('YYYY-MM-DD')
             this.updateTime()
         },
         updateTime () {
-            this.$emit('update:time', this.currentDate)
+            this.$emit('update:time', this.currentTime)
+            this.$emit('refresh')
         }
     }
 }

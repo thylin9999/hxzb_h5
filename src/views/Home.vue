@@ -2,7 +2,7 @@
   <div class="home h-100">
     <div class="home-header bg-center bg-no-repeat p-t-10">
         <Header />
-        <HeaderTab class="m-b-5" :tab-id="tabId"/>
+        <HeaderTab class="m-b-5" :tab-id.sync="tabId"/>
         <div class="swiper w-100">
             <swiper-banner />
         </div>
@@ -20,18 +20,17 @@
             </div>
         </div>
         <div class="list-section p-l-5 p-r-5">
-            <Competitions
-                :params="apiParams"
-                :key="updateKey"
+            <HostBroads
+                :tab-id="tabId"
             />
         </div>
-        <div class="copyright ">
-            <div class="first-line font-12 font-regular text-center">
-                软件名称：<span>{{ appInfo.name }}</span> <span>|</span>
-                开发者: {{ appInfo.developer }} <span>|</span>
-                版本：{{ appInfo.version }} <span>|</span> <br/> 更新时间: <span>{{ appInfo.updateTime }}</span>
-            </div>
-        </div>
+<!--        <div class="copyright ">-->
+<!--            <div class="first-line font-12 font-regular text-center">-->
+<!--                软件名称：<span>{{ appInfo.name }}</span> <span>|</span>-->
+<!--                开发者: {{ appInfo.developer }} <span>|</span>-->
+<!--                版本：{{ appInfo.version }} <span>|</span> <br/> 更新时间: <span>{{ appInfo.updateTime }}</span>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
   </div>
 </template>
@@ -40,7 +39,7 @@
 // @ is an alias to /src
 import SwiperBanner from '@/components/SwiperBanner'
 import { Icon } from 'vant'
-import Competitions from '@/views/Competition/Components/Competitions'
+import HostBroads from '@/views/Competition/Components/HostBroads'
 import BookedMatches from '@/components/BookedMatches'
 import Header from '@/views/Layout/Header'
 import HeaderTab from '@/components/HeaderTab'
@@ -49,7 +48,7 @@ export default {
     name: 'Home',
     components: {
         SwiperBanner,
-        Competitions,
+        HostBroads,
         Header,
         BookedMatches,
         HeaderTab,
@@ -65,14 +64,13 @@ export default {
                 version: 'v.1.0',
                 updateTime: dayjs().format('YYYY-MM-DD')
             },
-            tabId: 1 // 首页tab
+            tabId: 5 // 首页tab
         }
     },
     computed: {
         apiParams () {
             return {
-                sportId: this.sportTabId,
-                subId: this.subTabId
+                type: this.tabId === 5 ? 0 : this.tabId
             }
         }
     },

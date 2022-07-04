@@ -10,6 +10,7 @@
             v-for="host in hosts"
             :host="host"
             :key="host.id"
+            @refresh="fetchData"
         />
     </div>
 </div>
@@ -17,7 +18,7 @@
 
 <script>
 import { NavBar } from 'vant'
-import { getHosts } from '@/api/user'
+import { getSubscribeHosts } from '@/api/user'
 import { statusCode } from '@/utils/statusCode'
 import HostCard from '@/views/User/Components/HostCard'
 export default {
@@ -36,10 +37,17 @@ export default {
     },
     methods: {
         async fetchData () {
-            const { data } = await getHosts()
-            if (data.code === statusCode.success) {
-                this.hosts = data.data
-                console.log(this.hosts, data, 'data')
+            const { data, code } = await getSubscribeHosts()
+            console.log(data)
+
+            if (code === statusCode.success) {
+                this.hosts = data.list.reduce((all, item) => {
+                    all.push({
+                        ...item,
+                        isSubscribe: item.status === 1
+                    })
+                    return all
+                }, [])
             }
         },
         onClickLeft () {

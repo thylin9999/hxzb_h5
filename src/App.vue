@@ -6,7 +6,7 @@
 </template>
 <script >
 import Footer from '@/views/Layout/Footer'
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import { getItem } from '@/utils/cookie'
 export default {
     name: 'App',
@@ -20,12 +20,13 @@ export default {
         }
     },
     created () {
-        const userInfo = getItem('userInfo')
-        if (userInfo) {
-            this.SET(JSON.parse(userInfo))
+        const token = getItem('token')
+        if (token) {
+            this.getUserInfo()
         }
     },
     methods: {
+        ...mapActions('user', ['getUserInfo']),
         ...mapMutations('user', ['SET'])
     }
 }

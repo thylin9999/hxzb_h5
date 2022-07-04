@@ -1,5 +1,6 @@
 import Mock from 'mockjs'
 import { statusCode } from '../../utils/statusCode'
+// eslint-disable-next-line no-unused-vars
 import url from '../../api/competition/url'
 Mock.setup({
     timeout: 500
@@ -65,30 +66,30 @@ const getBattles = config => {
     })
 }
 
-const getBookedMatches = config => {
-    return Mock.mock({
-        code: statusCode.success,
-        'data|2': [
-            {
-                id: '@id',
-                name: '@cname',
-                'status|1': [0, 1], // 0 未开始，1 进行中
-                time: '@time',
-                team1: {
-                    icon: '',
-                    loop: '中甲第3轮',
-                    'score|0-10': 2
-                },
-                team2: {
-                    icon: '',
-                    loop: '中甲第3轮',
-                    'score|0-10': 2
-                }
-            }
-        ]
-    })
-}
+// const getBookedMatches = config => {
+//     return Mock.mock({
+//         code: statusCode.success,
+//         'data|2': [
+//             {
+//                 id: '@id',
+//                 name: '@cname',
+//                 'status|1': [0, 1], // 0 未开始，1 进行中
+//                 time: '@time',
+//                 team1: {
+//                     icon: '',
+//                     loop: '中甲第3轮',
+//                     'score|0-10': 2
+//                 },
+//                 team2: {
+//                     icon: '',
+//                     loop: '中甲第3轮',
+//                     'score|0-10': 2
+//                 }
+//             }
+//         ]
+//     })
+// }
 
 // Mock.mock(url.getLiveList, 'get', getLiveList)
 Mock.mock(/\/api\/v1\/battles/, 'get', getBattles)
-Mock.mock(url.getBookedMatches, 'post', getBookedMatches)
+// Mock.mock(url.getBookedMatches, 'post', getBookedMatches)

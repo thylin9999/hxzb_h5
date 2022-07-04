@@ -1,23 +1,23 @@
 const state = {
     matchTypes: [
         {
-            id: 1,
+            id: 5,
             title: '全部'
         },
         {
-            id: 2,
+            id: 1,
             title: '足球直播'
         },
         {
-            id: 3,
+            id: 2,
             title: '篮球直播'
         },
         {
-            id: 4,
+            id: 3,
             title: '电竞直播'
         },
         {
-            id: 5,
+            id: 4,
             title: '其他'
         }
     ]

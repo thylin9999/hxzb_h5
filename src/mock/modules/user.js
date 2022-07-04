@@ -48,5 +48,5 @@ const getHosts = config => {
     })
 }
 // Mock.mock(url.login, 'post', login)
-Mock.mock(/\/api\/v1\/user\/info/, 'get', userInfo)
+// Mock.mock(/\/api\/v1\/user\/info/, 'get', userInfo)
 Mock.mock(url.getHosts, 'get', getHosts)

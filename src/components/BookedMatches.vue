@@ -7,12 +7,16 @@
             </div>
         </div>
         <div class="block w-100 p-l-10 p-r-10 flex justify-between align-center">
-            <div class="match-list  flex align-center justify-between">
-                <match-card
-                    v-for="match in list"
-                    :key="match.id"
-                    :match="match"
-                />
+            <div class="overflow-x-auto match-box">
+                <div class="match-list  flex align-center flex-no-wrap">
+                    <match-card
+                        class="m-r-10"
+                        v-for="match in list"
+                        :key="match.id"
+                        :match="match"
+                        @refresh="fetchData"
+                    />
+                </div>
             </div>
             <div class="view-more flex align-center justify-center bg-center bg-no-repeat bg-size-100">
                 <span
@@ -25,12 +29,18 @@
 </template>
 
 <script>
-import { getBookedMatches } from '@/api/competition'
+import { getHotMatches } from '@/api/competition'
 import MatchCard from '@/components/MatchCard'
+import { Toast } from 'vant'
+import dayjs from 'dayjs'
+import { statusCode } from '@/utils/statusCode'
+import { matchStatus } from '@/utils/utils'
+
 export default {
     name: 'BookedMatches',
     components: {
-        MatchCard
+        MatchCard,
+        [Toast.name]: Toast
     },
     data () {
         return {
@@ -42,8 +52,25 @@ export default {
     },
     methods: {
         async fetchData () {
-            const { data } = await getBookedMatches({})
-            this.list = data
+            try {
+                const { data, code, msg } = await getHotMatches({
+                    day: dayjs().format('YYYY-MM-DD')
+                })
+                if (code === statusCode.success) {
+                    this.list = data.list.reduce((all, match) => {
+                        all.push({
+                            ...match,
+                            isSubscribe: match.appointment * 1 === 1,
+                            isGoing: !matchStatus[match.state]
+                        })
+                        return all
+                    }, [])
+                } else {
+                    Toast(msg)
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
         },
         viewMore () {
             this.$router.push({
@@ -71,9 +98,13 @@ export default {
             background-image: url('../assets/images/icons/match.png');
         }
     }
+    .match-box {
+        overflow-y: hidden;
+        width: calc(100% - 50px);
+    }
 }
 .match-list {
-    width: calc(100% - 50px);
+    width: fit-content;
 }
 .view-more {
     height: 105px;

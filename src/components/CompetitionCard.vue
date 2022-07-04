@@ -44,7 +44,7 @@ export default {
     computed: {
         bgImg () {
             return this.competition.live_cover
-                ? 'https://file.wanmeiyx.com/images/liveScreenShot/live_cover_sd-1-3680754.jpg'
+                ? this.competition.live_cover
                 : require('../assets/images/common/host-blank.png')
         }
     },

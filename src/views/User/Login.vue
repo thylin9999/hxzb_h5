@@ -1,12 +1,12 @@
 <template>
     <div class="w-100 h-100 login-box bg-center bg-no-repeat p-relative text-color">
-        <span class="p-absolute close-button">
-            <svg-icon @click.native="goBack" icon-class="safe"></svg-icon>
+        <span class="p-absolute close-button" @click="goBack">
+            <van-icon name="cross"></van-icon>
         </span>
         <div class="logo-box bg-center bg-no-repeat p-absolute"></div>
         <div class="login-section w-100 h-100">
             <div class="form-field font-regular">
-                <van-form class="m-t-10"  @submit="onSubmit">
+                <van-form class="m-t-10">
                     <!-- 通过 pattern 进行正则校验 -->
                     <input-with-icon class="m-b-10">
                         <span slot="icon" class="flex align-center">
@@ -28,7 +28,7 @@
                             placeholder="请输入验证码"
                         />
                         <template slot="suffix">
-                            <span class="font-13 font-regular">获取验证码</span>
+                            <span class="font-13 font-regular" @click="getValidateCode">{{ codeString }}</span>
                         </template>
                     </input-with-icon>
                     <input-with-icon class="m-b-10">
@@ -45,11 +45,11 @@
                         <van-button
                             class="font-16"
                             block type="default" round
-                            native-type="submit">{{ isRegister ? '立即注册' : '立即登录'}}</van-button>
+                            @click.native="beforeSubmit">{{ isRegister ? '立即注册' : '立即登录'}}</van-button>
                     </div>
                     <div class="footer-text m-t-30 font-13 font-regular flex justify-between">
                         <span @click="registerOrLogin">{{ isRegister ? '立即登录' : '立即注册'}}</span>
-                        <span :class="{'visibility-hidden': isRegister}" @click="forgetPassword">忘记密码</span>
+<!--                        <span :class="{'visibility-hidden': isRegister}" @click="forgetPassword">忘记密码</span>-->
                     </div>
                 </van-form>
             </div>
@@ -62,7 +62,7 @@ import { Form, Field, Button, Icon, Loading, Toast } from 'vant'
 import InputWithIcon from '@/views/User/Components/InputWithIcon'
 import { phone, isRequire } from '@/utils/validator'
 import { codeMap, statusCode } from '@/utils/statusCode'
-
+import { getCode } from '@/api/user'
 export default {
     name: 'Login',
     components: {
@@ -92,8 +92,16 @@ export default {
             },
             errorInfo: [],
             isRegister: false,
-            showCode: false,
-            showLoading: true
+            showCode: true,
+            showLoading: true,
+            timeLeft: process.env.VUE_APP_CODE_TIME,
+            canNotSend: false, // 是否为发送验证码
+            timer: null
+        }
+    },
+    computed: {
+        codeString () {
+            return this.canNotSend ? `${this.timeLeft}s` : '获取验证码'
         }
     },
     methods: {
@@ -104,13 +112,13 @@ export default {
                 duration: 0,
                 forbidClick: true
             })
-            const res = await request({
+            const { code, msg } = await request({
                 account: this.form.account.value,
+                code: this.form.code.value,
                 password: this.form.password.value
             })
-            console.log(res, 'res')
             Toast.clear()
-            if (res.code === statusCode.success) {
+            if (code === statusCode.success) {
                 // 登录or注册成功
                 if (this.isRegister) {
                     Toast(codeMap.registerSuccess)
@@ -122,22 +130,66 @@ export default {
                 }
             } else {
                 // 失败
-                Toast(res.msg)
-                if (res.msg.includes('密码')) {
-                    this.form.password.value = ''
-                } else if (res.msg.includes('账号')) {
-                    this.initForm()
-                }
+                Toast(msg)
+                this.form.password.value = ''
+                this.form.code.value = ''
             }
         },
-        onSubmit () {
+        beforeSubmit () {
+            this.errorInfo = []
             this.validateForm()
-            if (!this.errorInfo.length) {
+            const isOk = this.giveTips()
+            if (isOk) {
                 this.submit()
+            }
+        },
+        giveTips () {
+            let flag = false
+            if (!this.errorInfo.length) {
+                flag = true
             } else {
                 // 给出提示
                 Toast(this.errorInfo[0])
                 this.errorInfo = []
+                flag = false
+            }
+            return flag
+        },
+        beginTimer () {
+            this.canNotSend = true
+            window.clearImmediate(this.timer)
+            this.timer = null
+            this.timer = setInterval(() => {
+                if (this.timeLeft > 1) {
+                    this.timeLeft--
+                } else {
+                    this.initTimer()
+                }
+            }, 1000)
+        },
+        async getValidateCode () {
+            if (this.canNotSend) {
+                return
+            }
+            const isOk = this.validateRow('account')
+            if (isOk) {
+                this.beginTimer()
+                try {
+                    const { code, msg } = await getCode({
+                        mobile: this.form.account.value
+                    })
+                    if (code === statusCode.success) {
+                        // 只是验证码完成了
+                    } else {
+                        Toast(msg)
+                    }
+                } catch (e) {
+                    console.log('出错了')
+                } finally {
+
+                }
+            } else {
+                Toast('手机号格式错误')
             }
         },
         forgetPassword () {
@@ -145,26 +197,33 @@ export default {
         },
         validateForm () {
             // 分别校验 三个值
+            const res = []
             Object.keys(this.form).forEach(key => {
-                if (!this.showCode && key === 'code') {
-
+                if (key === 'code') {
+                    if (this.isRegister && this.showCode) {
+                        res.push(this.validateRow(key))
+                    }
                 } else {
-                    this.validateRow(key)
+                    res.push(this.validateRow(key))
                 }
             })
+            return res.every(x => x)
         },
         validateRow (key) {
+            let flag = true
             this.form[key].validator.forEach(validator => {
                 const { message } = validator(this.form[key].value)
                 if (message) {
                     this.errorInfo.push(message)
+                    flag = false
                 }
             })
+            return flag
         },
         registerOrLogin () {
             this.isRegister = !this.isRegister
-            // this.showCode = !!this.isRegister
             this.initForm()
+            this.initTimer()
         },
         initForm () {
             this.errorInfo = []
@@ -172,11 +231,21 @@ export default {
                 this.form[key].value = ''
             })
         },
+        initTimer () {
+            this.canNotSend = false
+            window.clearImmediate(this.timer)
+            this.timer = null
+            this.timeLeft = process.env.VUE_APP_CODE_TIME
+        },
         goBack () {
             this.$router.push({
                 name: 'My'
             })
         }
+    },
+    beforeDestroy () {
+        window.clearImmediate(this.timer)
+        this.timer = null
     }
 }
 </script>
@@ -242,6 +311,10 @@ export default {
             color: #4859DE;
         }
     }
-
+    .login-section{
+        .suffix-button {
+            text-align: center;
+        }
+    }
 }
 </style>
