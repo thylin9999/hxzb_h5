@@ -45,11 +45,11 @@
                         <van-button
                             class="font-16"
                             block type="default" round
-                            @click.native="beforeSubmit">{{ isRegister ? '立即注册' : '立即登录'}}</van-button>
+                            @click.native="beforeSubmit">{{ buttonTitle }}</van-button>
                     </div>
                     <div class="footer-text m-t-30 font-13 font-regular flex justify-between">
                         <span @click="registerOrLogin">{{ isRegister ? '立即登录' : '立即注册'}}</span>
-<!--                        <span :class="{'visibility-hidden': isRegister}" @click="forgetPassword">忘记密码</span>-->
+<!--                        <span :class="{'visibility-hidden': isResetPassword}" @click="forgetPassword">忘记密码</span>-->
                     </div>
                 </van-form>
             </div>
@@ -61,8 +61,8 @@ import { mapActions } from 'vuex'
 import { Form, Field, Button, Icon, Loading, Toast } from 'vant'
 import InputWithIcon from '@/views/User/Components/InputWithIcon'
 import { phone, isRequire } from '@/utils/validator'
-import { codeMap, statusCode } from '@/utils/statusCode'
-import { getCode } from '@/api/user'
+import { statusCode } from '@/utils/statusCode'
+import { getCode, findBackPwd } from '@/api/user'
 export default {
     name: 'Login',
     components: {
@@ -92,22 +92,29 @@ export default {
             },
             errorInfo: [],
             isRegister: false,
-            showCode: true,
+            // showCode: true,
             showLoading: true,
             timeLeft: process.env.VUE_APP_CODE_TIME,
             canNotSend: false, // 是否为发送验证码
-            timer: null
+            timer: null,
+            isResetPassword: false // 是否为找回密码
         }
     },
     computed: {
         codeString () {
             return this.canNotSend ? `${this.timeLeft}s` : '获取验证码'
+        },
+        buttonTitle () {
+            return this.isResetPassword ? '立即找回' : (this.isRegister ? '立即注册' : '登录')
+        },
+        showCode () {
+            return !!this.isRegister
         }
     },
     methods: {
         ...mapActions('user', ['login', 'register']),
         async submit () {
-            const request = this.isRegister ? this.register : this.login
+            const request = this.isResetPassword ? findBackPwd : (this.isRegister ? this.register : this.login)
             Toast.loading({
                 duration: 0,
                 forbidClick: true
@@ -119,11 +126,13 @@ export default {
             })
             Toast.clear()
             if (code === statusCode.success) {
+                Toast(msg)
                 // 登录or注册成功
                 if (this.isRegister) {
-                    Toast(codeMap.registerSuccess)
+                    // Toast(codeMap.registerSuccess)
                     const account = this.form.account.value
-                    this.registerOrLogin()
+                    this.initTimer()
+                    // this.registerOrLogin()
                     this.form.account.value = account
                 } else {
                     this.$router.push({ path: '/' })
@@ -156,6 +165,9 @@ export default {
             return flag
         },
         beginTimer () {
+            if (this.canNotSend) {
+                return
+            }
             this.canNotSend = true
             window.clearImmediate(this.timer)
             this.timer = null
@@ -176,7 +188,8 @@ export default {
                 this.beginTimer()
                 try {
                     const { code, msg } = await getCode({
-                        mobile: this.form.account.value
+                        mobile: this.form.account.value,
+                        msType: this.isResetPassword ? 2 : 1
                     })
                     if (code === statusCode.success) {
                         // 只是验证码完成了
@@ -193,7 +206,9 @@ export default {
             }
         },
         forgetPassword () {
-            console.log('忘记密码')
+            this.isRegister = true
+            this.isResetPassword = true
+            this.initTimer()
         },
         validateForm () {
             // 分别校验 三个值
@@ -222,6 +237,8 @@ export default {
         },
         registerOrLogin () {
             this.isRegister = !this.isRegister
+            this.isResetPassword = false
+            this.canNotSend = false
             this.initForm()
             this.initTimer()
         },
@@ -233,9 +250,9 @@ export default {
         },
         initTimer () {
             this.canNotSend = false
-            window.clearImmediate(this.timer)
             this.timer = null
-            this.timeLeft = process.env.VUE_APP_CODE_TIME
+            window.clearImmediate(this.timer)
+            this.timeLeft = 60
         },
         goBack () {
             this.$router.push({

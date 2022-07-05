@@ -22,7 +22,9 @@
             </van-tabs>
         </div>
         <div class="host-component">
-            <component :roomInfo="roomInfo" :anchorInfo="anchorInfo" :is="contentComp"></component>
+            <keep-alive>
+                <component :roomInfo="roomInfo" :anchorInfo="anchorInfo" :is="contentComp"></component>
+            </keep-alive>
         </div>
     </div>
 </template>

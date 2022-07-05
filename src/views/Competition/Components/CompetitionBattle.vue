@@ -111,6 +111,9 @@ export default {
     },
     methods: {
         async subscribeHost () {
+            if (!this.isNotStart) {
+                return
+            }
             try {
                 const { code, msg } = await addSubscribeMatch(this.battle.matchId)
                 if (code === statusCode.success) {

@@ -38,6 +38,18 @@ export function register ({ account = 'admin', code = 666666, password = '000000
         }
     })
 }
+// 找回密码
+export function findBackPwd ({ account = 'admin', code = 666666, password = '000000' }) {
+    return request({
+        method: 'post',
+        url: url.findBackPwd,
+        data: {
+            account,
+            password,
+            mobile_code: code
+        }
+    })
+}
 
 export function getHosts () {
     return request({
