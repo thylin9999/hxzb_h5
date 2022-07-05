@@ -51,6 +51,7 @@
               v-for="anchor in battle.anchor_list"
               :key="anchor.room_id"
               class="item bg-center d-inline-block bg-no-repeat bg-size-100 border-50"
+              @click="goToLiveRoom(anchor)"
               :style="{
                 backgroundImage: anchor.img ? `url(${anchor.img})` : `url(${hostIcon})`
               }"
@@ -125,6 +126,15 @@ export default {
             } catch (e) {
                 console.log('出错了')
             }
+        },
+        goToLiveRoom (anchor) {
+            this.$router.push({
+                name: 'Broadcast',
+                params: {
+                    id: this.battle.matchId // 此id只是用来更新页面的
+                },
+                query: { room_id: anchor.room_id }
+            })
         }
     }
 }
