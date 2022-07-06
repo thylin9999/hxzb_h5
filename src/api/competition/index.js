@@ -82,3 +82,10 @@ export function getMatchList ({
         }
     })
 }
+
+export function getBookedMatches () {
+    return request({
+        method: 'post',
+        url: url.getBookedMatches
+    })
+}

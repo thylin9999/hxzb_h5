@@ -9,7 +9,7 @@
         />
 
         <ul v-if="competitions.length"
-            class="flex battles flex-wrap p-l-5 p-r-5"
+            class=" battles  m-auto p-l-5 p-r-5"
             :class="{'has-time-line': showTimeLine }"
         >
             <template
@@ -94,7 +94,12 @@ export default {
                 })
                 const { data, code, msg } = await getMatchList(this.apiParams)
                 if (code === statusCode.success) {
-                    this.competitions = data ? data.list : []
+                    this.competitions = data ? data.list.reduce((all, item) => {
+                        all.push({
+                            ...item
+                        })
+                        return all
+                    }, []) : []
                 } else {
                     Toast(msg)
                 }

@@ -61,11 +61,11 @@ export default {
                 {
                     id: 2,
                     name: '篮球'
-                },
-                {
-                    id: 4,
-                    name: '其他'
                 }
+                // {
+                //     id: 4,
+                //     name: '其他'
+                // }
             ],
             subTabs: [
                 {

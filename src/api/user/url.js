@@ -3,6 +3,7 @@ const url = {
     login: '/api/member/login',
     logout: '/api/member/logout',
     register: '/api/member/register',
+    findBackPwd: '/api/member/editPwd',
     getHosts: '/api/user/getHosts',
     getCode: '/api/sendSms/send',
     updatePassword: '/api/member/editPwd2',
