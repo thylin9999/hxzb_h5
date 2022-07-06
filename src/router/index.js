@@ -72,6 +72,14 @@ const routes = [
                 }
             },
             {
+                path: '/user/book-list',
+                name: 'BookList',
+                component: () => import(/* webpackChunkName: "My" */ '../views/User/BookedMatches.vue'),
+                meta: {
+                    hideFooter: true
+                }
+            },
+            {
                 path: '/user/feedback',
                 name: 'Feedback',
                 component: () => import(/* webpackChunkName: "My" */ '../views/User/Feedback.vue'),

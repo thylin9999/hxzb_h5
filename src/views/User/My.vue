@@ -133,6 +133,10 @@ export default {
                 this.$router.push({
                     name: 'SubscribeHost'
                 })
+            } else if (item.key === 'myBooked') {
+                this.$router.push({
+                    name: 'BookList'
+                })
             } else if (item.key === 'advice') {
                 this.$router.push({
                     name: 'Feedback'

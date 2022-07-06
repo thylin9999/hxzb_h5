@@ -1,5 +1,5 @@
 <template>
-<div class="w-100 font-regular m-b-10 p-l-15 p-r-15 m-l-10 card flex justify-between text-black-3">
+<div class="w-100 font-regular m-b-10 p-l-15 p-r-15 m-l-5 card flex justify-between text-black-3">
     <div class="left-teams flex flex-column justify-between p-t-15 p-b-15">
         <div class="team-a flex justify-between">
             <div class="team-info">
@@ -47,15 +47,17 @@
             暂无主播
         </span>
         <div class="anchors">
-          <span
-              v-for="anchor in battle.anchor_list"
-              :key="anchor.room_id"
-              class="item bg-center d-inline-block bg-no-repeat bg-size-100 border-50"
-              @click="goToLiveRoom(anchor)"
-              :style="{
+          <div class="anchors-box flex align-center">
+              <span
+                  v-for="anchor in battle.anchor_list"
+                  :key="anchor.room_id"
+                  class="item bg-center m-l-5 d-inline-block bg-no-repeat bg-size-100 border-50"
+                  @click="goToLiveRoom(anchor)"
+                  :style="{
                 backgroundImage: anchor.img ? `url(${anchor.img})` : `url(${hostIcon})`
               }"
-          ></span>
+              ></span>
+          </div>
         </div>
     </div>
 </div>
@@ -86,25 +88,25 @@ export default {
     },
     computed: {
         isGoing () {
-            return !matchStatus[this.battle.state]
+            return !this.isNotStart && !this.isEnd
         },
         isEnd () {
-            return !!matchStatus[this.battle.state]
+            return this.battle.state * 1 === -1
         },
         isNotStart () {
             // 未开始
             // eslint-disable-next-line eqeqeq
-            return this.battle.state == 0
+            return this.battle.state * 1 === 0
         },
         isAppointment () {
             // eslint-disable-next-line eqeqeq
-            return !(this.battle.appointment && this.battle.appointment * 1 === 2)
+            return this.battle.appointment * 1 === 2
         },
         hasHosts () {
             return !!this.battle.anchor_list.length
         },
         statusString () {
-            return this.isEnd ? '已结束' : (this.isNotStart ? (this.isAppointment ? '取消预约' : '预约') : '进行中')
+            return this.isNotStart ? (this.isAppointment ? '已预约' : '预约') : matchStatus[this.battle.state]
         },
         hostIcon () {
             return require('../../../assets/images/chat/user-logo.jpeg')
@@ -194,7 +196,12 @@ export default {
     .host{
         width: 80px;
         border-left: 1px solid $un-active-color;
-      .anchors {
+        .anchors {
+          width: 100%;
+          overflow-x: auto;
+          .anchors-box{
+              width: fit-content;
+          }
         .item {
           width: 20px;
           height: 20px;
