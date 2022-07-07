@@ -143,8 +143,8 @@ export default {
                 })
             } else if (item.key === 'logout') {
                 this.logoutAction()
-            } else {
-
+            } else if (item.key === 'onlineCustom') {
+                window.open('https://tb.53kf.com/code/client/b8ccba789e8f30713194b500e84013f22/1')
             }
         }
     }

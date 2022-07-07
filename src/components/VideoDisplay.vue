@@ -4,20 +4,20 @@
         <div class="video-player" style="width: 100%;height: 100%" @click.prevent="showControl = !showControl">
             <div id="video-player-tag"></div>
             <div id="dplayer" ref="dplayer" style="width: 100%;height: 100%">
-                <div style="width: 100%;height: 100%">
-                    <img :src="liveCover" alt="" draggable="false" style="width: 100%;height: 100%">
-                </div>
+<!--                <div style="width: 100%;height: 100%">-->
+<!--                    <img :src="liveCover" alt="" draggable="false" style="width: 100%;height: 100%">-->
+<!--                </div>-->
             </div>
             <!--            <div class="showRefresh btn" @mousemove="showRefresh = true" @mouseleave="showRefresh = false">-->
             <!--                <p @click="videoRefresh">刷新</p>-->
             <!--            </div>-->
-            <div class="control" @click="showQuality = !showQuality">
-                <span class="btn"> {{ qualityType == 'Original' ? '原画质' : qualityType == 'HD' ? '高清' : '普通' }}  </span>
+            <div class="control" @click.prevent="showQuality = !showQuality">
+                <span class="btn"> {{ qualityType == 'Original' ? '超清' : qualityType == 'HD' ? '高清' : '普通' }}  </span>
                 <div class="control_box" v-show="showQuality">
                     <ul class="quality_list">
                         <span class="btn" @click="changeQuality('Original')">超清</span>
                         <span class="btn" @click="changeQuality('HD')">高清</span>
-                        <span class="btn" @click="changeQuality('ordinary')">一般</span>
+                        <span class="btn" @click="changeQuality('ordinary')">普通</span>
                     </ul>
                 </div>
             </div>
@@ -104,7 +104,7 @@
             },
             changeQuality(type) {
                 this.qualityType = type || 'HD'
-                this.showQuality = false  //高清... 切换 展示
+                // this.showQuality = false  //高清... 切换 展示
                 let rtmp_url = this.roomInfo.rtmp_url
                 let rtmp_live = this.roomInfo.rtmp_live
                 let url = rtmp_url + "?" + rtmp_live
@@ -220,6 +220,7 @@
 <style lang="scss" scoped>
     .video-box {
         height: 230px;
+        background-color: #000;
     }
 
     .dplayer-danloading {

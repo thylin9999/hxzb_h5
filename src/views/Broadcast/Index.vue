@@ -27,10 +27,11 @@
             </keep-alive>
         </div>
     </div>
+<!--    <van-loading v-else class="loading" size="24px" type="spinner" color="#1989fa">加载中...</van-loading>-->
 </template>
 
 <script>
-import { Tab, Tabs, NavBar } from 'vant'
+import { Tab, Tabs, NavBar, Toast } from 'vant'
 import VideoDisplay from '@/components/VideoDisplay'
 import ChatRoom from '@/views/Broadcast/components/ChatRoom'
 import Host from '@/views/Broadcast/components/Host'
@@ -43,6 +44,7 @@ export default {
         [NavBar.name]: NavBar,
         [Tab.name]: Tab,
         [Tabs.name]: Tabs,
+        [Toast.name]: Toast,
         VideoDisplay,
         ChatRoom,
         Host
@@ -90,10 +92,22 @@ export default {
     },
     methods: {
         async init () {
-            const { data, code } = await getRoomInfo({ room_id: this.$route.query.room_id })
-            if (code === 200) {
-                this.roomInfo = data.room_info
-                this.anchorInfo = data.anchor_info
+            try {
+                Toast.loading({
+                    duration: 0,
+                    forbidClick: true,
+                    message: '加载中...',
+                    loadingType: 'spinner'
+                })
+                const { data, code, msg } = await getRoomInfo({ room_id: this.$route.query.room_id })
+                if (code === 200) {
+                    this.roomInfo = data.room_info
+                    this.anchorInfo = data.anchor_info
+                } else {
+                    Toast(msg)
+                }
+            } finally {
+                Toast.clear()
             }
         },
         onClickLeft () {
@@ -105,6 +119,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .loading{
+      width: 100%;
+      height: 100%;
+    }
+
   .host-component {
     height: calc(100% - 320px);
   }
@@ -115,6 +134,9 @@ export default {
         width: 96px;
       }
     }
+  }
 
+  >>> .van-toast--unclickable{
+      background-color: #000;
   }
 </style>
