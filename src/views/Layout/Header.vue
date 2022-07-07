@@ -4,7 +4,7 @@
             <img class="w-100" src="../../assets/images/logo.png" alt="">
         </div>
 <!--        <span>返回首页</span>-->
-<!--        <span class="download-button d-inline-block text-center text-color">下载APP</span>-->
+        <span class="download-button d-inline-block text-center font-15 text-color">下载App</span>
     </div>
 </template>
 <script>
@@ -27,11 +27,12 @@ export default {
     }
     .download-button{
         width: 83.5px;
-        height: 24.5px;
-        line-height: 24.5px;
-        font-size: 13px;
-        background-color: $button-color;
-        border-radius: 12px;
+        line-height: 30px;
+        font-size: 15px;
+        height: 34px;
+        border-radius: 17px;
+        color: #1D3F67;
+        border: 2px solid #1D3F67;
     }
 }
 </style>

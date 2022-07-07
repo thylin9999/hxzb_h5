@@ -1,5 +1,5 @@
 <template>
-    <div class="book-matches p-t-20">
+    <div class="book-matches p-t-20" v-if="list.length">
         <div class="list-header flex justify-between align-center p-b-15 p-l-10 p-r-10">
             <div class="hot-recommend flex align-center">
                 <span class="match-icon bg-center bg-size-100 bg-no-repeat"></span>
@@ -16,13 +16,14 @@
                         :match="match"
                         @refresh="fetchData"
                     />
-                </div>
-            </div>
-            <div class="view-more flex align-center justify-center bg-center bg-no-repeat bg-size-100">
+                    <div class="view-more flex align-center justify-center bg-center bg-no-repeat bg-size-100">
                 <span
                     class="text-color m-l-n-5 font-12 font-medium"
                     @click="viewMore"
                 >查看更多</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -100,7 +101,7 @@ export default {
     }
     .match-box {
         overflow-y: hidden;
-        width: calc(100% - 50px);
+        //width: calc(100% - 50px);
     }
 }
 .match-list {

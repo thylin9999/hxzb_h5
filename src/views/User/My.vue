@@ -107,7 +107,7 @@ export default {
                 // },
                 {
                     key: 'logout',
-                    preIcon: 'info',
+                    preIcon: 'logout',
                     text: '退出登录'
                 }
             ]

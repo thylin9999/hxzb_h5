@@ -65,10 +65,10 @@ export default {
             return dayjs(this.match.matchTime).format('HH:mm')
         },
         homeLogo () {
-            return this.match.homeLogo ? this.match.homeLogo : require('../assets/images/common/team-flag.png')
+            return this.match.homeLogo ? this.match.homeLogo : require('../assets/images/common/match-logo.png')
         },
         awayLogo () {
-            return this.match.awayLogo ? this.match.awayLogo : require('../assets/images/common/team-flag.png')
+            return this.match.awayLogo ? this.match.awayLogo : require('../assets/images/common/match-logo.png')
         }
     },
     methods: {
@@ -106,7 +106,7 @@ export default {
 .left-info {
     .icon {
         width: 17px;
-        height: 15px;
+        height: 17px;
         //background-image: url('../assets/images/common/team-flag.png');
     }
     .team-name {
