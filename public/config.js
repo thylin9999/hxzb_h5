@@ -1,3 +1,3 @@
 
 /*eslint-disable */
-const _appDownloadUlr = 'http://www.baidu.com'
+const _appDownloadUlr = 'http://zhuoyixiaochengxu.cn/haibao.apk'

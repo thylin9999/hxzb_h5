@@ -99,6 +99,15 @@ const routes = [
         }
     },
     {
+        path: '/download',
+        name: 'Download',
+        component: () => import(/* webpackChunkName: "Recommend" */ '../views/DownloadApp'),
+        meta: {
+            name: 'Download',
+            icon: 'Download'
+        }
+    },
+    {
         path: '/competition',
         name: 'Competition',
         component: () => import(/* webpackChunkName: "Recommend" */ '../views/Competition/Competition.vue'),
