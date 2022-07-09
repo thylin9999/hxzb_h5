@@ -19,6 +19,7 @@ export default {
 <style lang="scss" scoped>
 .download-app {
     height: calc(100vh - 70px);
-    background-image: url('../assets/images/login/bg.png');
+    background-image: url('../assets/images/download.jpg');
+    background-size: 100% 100%;
 }
 </style>

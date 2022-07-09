@@ -8,14 +8,14 @@
             @click="goToPage(menu)"
             :class="{'app-logo-bar bg-no-repeat ': menu.key === 'Download'}"
         >
-            <template v-if="menu.key !== 'Download'">
+            <template>
                 <svg-icon
-
                     :icon-class="activeId === menu.id ? menu.icon + '_sel' : menu.icon"
                 />
-                <span class="m-t-5 font-16 font-regular">{{ menu.name }}</span>
+                <span class="m-t-5 p-t-50 font-16 font-regular">{{ menu.name }}</span>
             </template>
-            <span class='app-logo w-100 h-100 bg-center bg-no-repeat bg-size-100 p-absolute d-inline-block h-100'></span>
+
+            <span class='app-logo w-100 h-100 bg-center bg-no-repeat bg-size-100 p-absolute d-inline-block'></span>
         </li>
     </ul>
 </div>
@@ -41,7 +41,7 @@ export default {
                 },
                 {
                     id: 3,
-                    name: 'APP',
+                    name: 'App',
                     key: 'Download',
                     icon: 'Download'
                 },
@@ -87,10 +87,10 @@ export default {
     background-color: #fff;
 
     .app-logo-bar{
-        height: 50px;
+        //height: 50px;
         .app-logo {
-            width: 50px;
-            height: 50px;
+            width: 25px;
+            height: 25px;
             background-image: url('../../assets/images/common/match-logo.png');
             background-repeat: no-repeat;
             background-position: center 0;
