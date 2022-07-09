@@ -66,7 +66,6 @@ export default {
                     duration: 0,
                     forbidClick: true
                 })
-                console.log(this.apiParams, this.tabId, 'asdf')
                 const { code, data, msg } = await getLiveList(this.apiParams)
                 if (code === statusCode.success) {
                     this.competitions = data ? data.list : []
