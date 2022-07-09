@@ -3,18 +3,18 @@
     <div class="home-header bg-center bg-no-repeat p-t-10">
         <Header />
         <HeaderTab class="m-b-5" :tab-id.sync="tabId"/>
-        <div class="swiper w-100">
+        <div class="swiper w-100" v-if="isAllType">
             <swiper-banner />
         </div>
     </div>
-      <booked-matches />
+      <booked-matches v-if="isAllType"/>
     <div class="list m-t-15">
         <div class="list-header flex justify-between align-center p-b-15 p-l-10 p-r-10">
             <div class="hot-recommend flex align-center">
                 <span class="tv-icon bg-center bg-size-100 bg-no-repeat"></span>
-                <span class="download-button p-l-5 font-medium font-500">{{ $t('Home.recommendBroadcast')}}</span>
+                <span class="download-button p-l-5 font-medium font-500">正在直播</span>
             </div>
-            <div class="font-12 light-text-color font-regular view-more">
+            <div class="font-12 light-text-color font-regular view-more" v-if="isAllType">
                 <span @click="viewMore">查看更多</span>
                 <van-icon name="arrow" color="#8D8D8D"></van-icon>
             </div>
@@ -72,6 +72,10 @@ export default {
             return {
                 type: this.tabId === 5 ? 0 : this.tabId
             }
+        },
+        isAllType () {
+            // 是否为全部分类
+            return this.tabId === 5
         }
     },
     methods: {
