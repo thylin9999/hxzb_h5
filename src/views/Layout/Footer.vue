@@ -4,13 +4,12 @@
         <li
             v-for="menu in menus"
             :key="menu.key"
-            class="flex flex-column flex-1 align-center p-relative bar-item"
+            class="flex flex-column flex-1  align-center p-relative bar-item"
             @click="goToPage(menu)"
             :class="{'app-logo-bar bg-no-repeat ': menu.key === 'Download', 'is-active': activeId === menu.id }"
         >
             <template v-if="menu.key !== 'Download'">
                 <svg-icon
-
                     :icon-class="activeId === menu.id ? menu.icon + '_sel' : menu.icon"
                 />
                 <span class="bar-title font-12 font-regular">{{ menu.name }}</span>
@@ -41,7 +40,7 @@ export default {
                 },
                 {
                     id: 3,
-                    name: 'APP',
+                    name: 'App',
                     key: 'Download',
                     icon: 'Download'
                 },
@@ -85,7 +84,7 @@ export default {
     bottom: 0;
     z-index: 999;
     background-color: #fff;
-
+    height: 50px;
     .app-logo-bar{
         height: 50px;
         .app-logo {
