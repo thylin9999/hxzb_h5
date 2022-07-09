@@ -13,7 +13,7 @@
         <!--            </div>-->
         <!--        </div>-->
         <!--    </div>-->
-        <div class="message-section p-l-15 p-r-15">
+        <div class="message-section">
             <message-row v-for="(tem,i) in chatList" :key="i"  :msgCon="tem"/>
         </div>
         <div class="footer p-l-15 p-r-15 w-100 p-absolute">
@@ -142,8 +142,9 @@ export default {
                     case '1120': // 系统提示
                         item = {
                             type: '1120',
-                            msg: '系统提示：' + obj.msg
+                            msg: obj.content.msg
                         }
+                        that.chatList.push(item)
                         // that.chatList.push(item)
                         // that.$nextTick(() => {
                         //     that.$refs.element.scrollTop = 10000000
