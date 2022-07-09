@@ -6,7 +6,7 @@
                 <span class="team-icon">
                   <span class="bg"
                     :style="{
-                      backgroundImage: `url(${battle.homeLogo})`
+                      backgroundImage: `url(${homeLogo})`
                     }"
                   > </span>
                 </span>
@@ -19,7 +19,7 @@
                 <span class="team-icon">
                   <span class="bg"
                         :style="{
-                      backgroundImage: `url(${battle.awayLogo})`
+                      backgroundImage: `url(${awayLogo})`
                     }"
                   ></span>
                 </span>
@@ -100,7 +100,7 @@ export default {
         },
         isAppointment () {
             // eslint-disable-next-line eqeqeq
-            return this.battle.appointment * 1 === 2
+            return this.battle.appointment * 1 === 1
         },
         hasHosts () {
             return !!this.battle.anchor_list.length
@@ -110,6 +110,12 @@ export default {
         },
         hostIcon () {
             return require('../../../assets/images/chat/user-logo.jpeg')
+        },
+        homeLogo () {
+            return this.battle.homeLogo ? this.battle.homeLogo : require('../../../assets/images/common/match-logo.png')
+        },
+        awayLogo () {
+            return this.battle.awayLogo ? this.battle.awayLogo : require('../../../assets/images/common/match-logo.png')
         }
     },
     methods: {

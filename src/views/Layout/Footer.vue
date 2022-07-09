@@ -1,21 +1,21 @@
 <template>
-<div class="footer p-fixed w-100 p-t-10">
-    <ul class="flex align-center h-100 m-b-5">
+<div class="footer p-fixed w-100 ">
+    <ul class="flex align-center h-100 ">
         <li
             v-for="menu in menus"
             :key="menu.key"
             class="flex flex-column flex-1 align-center p-relative bar-item"
             @click="goToPage(menu)"
-            :class="{'app-logo-bar bg-no-repeat ': menu.key === 'Download'}"
+            :class="{'app-logo-bar bg-no-repeat ': menu.key === 'Download', 'is-active': activeId === menu.id }"
         >
             <template v-if="menu.key !== 'Download'">
                 <svg-icon
 
                     :icon-class="activeId === menu.id ? menu.icon + '_sel' : menu.icon"
                 />
-                <span class="m-t-5 font-16 font-regular">{{ menu.name }}</span>
+                <span class="bar-title font-12 font-regular">{{ menu.name }}</span>
             </template>
-            <span class='app-logo w-100 h-100 bg-center bg-no-repeat bg-size-100 p-absolute d-inline-block h-100'></span>
+            <span v-else class='app-logo w-100 h-100 bg-center bg-no-repeat  p-absolute d-inline-block h-100'></span>
         </li>
     </ul>
 </div>
@@ -90,18 +90,28 @@ export default {
         height: 50px;
         .app-logo {
             width: 50px;
-            height: 50px;
-            background-image: url('../../assets/images/common/match-logo.png');
+            height: 58px;
+            top: -10px;
+            background-image: url('../../assets/images/common/download-app.png');
             background-repeat: no-repeat;
             background-position: center 0;
-            border-radius: 50%;
+            background-size: 100% 100%;
+        }
+    }
+    .bar-item {
+        .bar-title {
+            color: #A2B0CA;
+        }
+        &.is-active {
+            .bar-title {
+                color: #434B5D;
+            }
         }
     }
 
 }
 ::v-deep {
     .bar-item {
-        height: 50px;
         .icon {
             width: 22px;
             height: 20px;
