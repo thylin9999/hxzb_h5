@@ -62,7 +62,7 @@ export function addSubscribeMatch (matchId) {
 // 赛程
 export function getMatchList ({
     pageNumber = 1,
-    pageSize = 2000,
+    pageSize = 20,
     leagueId = null,
     playing = '',
     leagueType = null,

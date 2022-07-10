@@ -7,27 +7,27 @@
             @refresh="fetchData"
             class="m-b-10"
         />
-
-        <ul v-if="competitions.length"
-            class=" battles  m-auto p-l-5 p-r-5"
-            :class="{'has-time-line': showTimeLine }"
-        >
-            <template
-                v-for="battle in competitions"
+        <van-pull-refresh class="h-100" v-model="refreshing" @refresh="onRefresh">
+            <van-list
+                v-model="loading"
+                :finished="finished"
+                finished-text="没有更多了"
+                @load="onLoad"
+                class=" battles h-100 m-auto p-l-5 p-r-5"
+                :class="{'has-time-line': showTimeLine }"
             >
-                <competition-battle
-                    :battle="battle"
-                    :key="battle.id"
-                    @refresh="fetchData"
-                />
-            </template>
-        </ul>
-        <van-empty
-            v-else
-            class="custom-image"
-            :image="require('../../../assets/images/notFound.png')"
-            description="暂无数据"
-        />
+                <template
+                    v-for="battle in competitions"
+                >
+                    <competition-battle
+                        :battle="battle"
+                        :key="battle.id"
+                        @refresh="fetchData"
+                    />
+                </template>
+            </van-list>
+        </van-pull-refresh>
+
     </div>
 </template>
 
@@ -35,7 +35,7 @@
 import CompetitionBattle from '@/views/Competition/Components/CompetitionBattle'
 import TimeLine from '@/views/Competition/Components/TimeLine'
 import { getMatchList } from '@/api/competition'
-import { Toast, Empty } from 'vant'
+import { Toast, Empty, PullRefresh, List, Cell } from 'vant'
 import { statusCode } from '@/utils/statusCode'
 import dayjs from 'dayjs'
 // import { statusCode } from '@/utils/statusCode'
@@ -58,12 +58,23 @@ export default {
     components: {
         [Toast.name]: Toast,
         [Empty.name]: Empty,
+        [PullRefresh.name]: PullRefresh,
+        [List.name]: List,
+        [Cell.name]: Cell,
         CompetitionBattle,
         TimeLine
     },
     data () {
         return {
+            finished: false,
+            loading: false,
+            refreshing: false,
             competitions: [],
+            pagination: {
+                total: 0,
+                currentPage: 0,
+                pageSize: 20
+            },
             currentTime: dayjs().format('YYYY-MM-DD')
         }
     },
@@ -73,6 +84,8 @@ export default {
                 // eslint-disable-next-line eqeqeq
                 playing: this.playing == 5 ? null : this.playing,
                 leagueType: this.leagueType,
+                pageNumber: this.pagination.currentPage,
+                pageSize: this.pagination.pageSize,
                 // eslint-disable-next-line eqeqeq
                 day: this.showTimeLine ? this.currentTime : (this.playing == 5 ? dayjs().format('YYYY-MM-DD') : null)
             }
@@ -83,9 +96,49 @@ export default {
         }
     },
     created () {
-        this.fetchData()
+        // this.fetchData()
     },
     methods: {
+        onRefresh () {
+            // 清空列表数据
+            this.finished = false
+            // 重新加载数据
+            // 将 loading 设置为 true，表示处于加载状态
+            this.loading = true
+            this.pagination.currentPage = 0
+            this.onLoad()
+        },
+        async onLoad () {
+            try {
+                this.pagination.currentPage++
+                const { data, code, msg } = await getMatchList(this.apiParams)
+                if (code === statusCode.success) {
+                    if (this.refreshing) {
+                        this.competitions = []
+                        this.pagination.currentPage = 1
+                        this.pagination.total = 0
+                        this.refreshing = false
+                    }
+                    const tempRes = data ? data.list.reduce((all, item) => {
+                        all.push({
+                            ...item
+                        })
+                        return all
+                    }, []) : []
+                    this.competitions.push(...tempRes)
+                    this.loading = false
+                    this.pagination.currentPage = data.current_page
+                    this.pagination.total = data.total
+                    if (this.competitions.length >= this.pagination.total) {
+                        this.finished = true
+                    }
+                } else {
+                    Toast(msg)
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
+        },
         async fetchData () {
             try {
                 Toast.loading({
@@ -114,7 +167,8 @@ export default {
 <style lang="scss" scoped>
 .battles {
     height: 100%;
-    overflow-y: overlay;
+    //padding-bottom: 80px;
+    overflow-y: auto;
     &.has-time-line {
         height: calc(100% - 70px);
     }
