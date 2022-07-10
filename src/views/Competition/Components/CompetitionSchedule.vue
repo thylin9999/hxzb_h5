@@ -28,26 +28,6 @@
             </van-list>
         </van-pull-refresh>
 
-<!--        <ul v-if="competitions.length"-->
-<!--            class=" battles  m-auto p-l-5 p-r-5"-->
-<!--            :class="{'has-time-line': showTimeLine }"-->
-<!--        >-->
-<!--            <template-->
-<!--                v-for="battle in competitions"-->
-<!--            >-->
-<!--                <competition-battle-->
-<!--                    :battle="battle"-->
-<!--                    :key="battle.id"-->
-<!--                    @refresh="fetchData"-->
-<!--                />-->
-<!--            </template>-->
-<!--        </ul>-->
-<!--        <van-empty-->
-<!--            v-else-->
-<!--            class="custom-image"-->
-<!--            :image="require('../../../assets/images/notFound.png')"-->
-<!--            description="暂无数据"-->
-<!--        />-->
     </div>
 </template>
 
