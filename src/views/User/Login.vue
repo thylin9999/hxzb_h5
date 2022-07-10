@@ -49,7 +49,7 @@
                     </div>
                     <div class="footer-text m-t-30 font-13 font-regular flex justify-between">
                         <span @click="registerOrLogin">{{ isRegister ? '立即登录' : '立即注册'}}</span>
-<!--                        <span :class="{'visibility-hidden': isResetPassword}" @click="forgetPassword">忘记密码</span>-->
+                        <span :class="{'visibility-hidden': isResetPassword}" @click="forgetPassword">忘记密码</span>
                     </div>
                 </van-form>
             </div>
@@ -169,8 +169,9 @@ export default {
                 return
             }
             this.canNotSend = true
-            window.clearImmediate(this.timer)
+            window.clearInterval(this.timer)
             this.timer = null
+            this.timeLeft = 60
             this.timer = setInterval(() => {
                 if (this.timeLeft > 1) {
                     this.timeLeft--
@@ -238,7 +239,6 @@ export default {
         registerOrLogin () {
             this.isRegister = !this.isRegister
             this.isResetPassword = false
-            this.canNotSend = false
             this.initForm()
             this.initTimer()
         },
@@ -250,8 +250,8 @@ export default {
         },
         initTimer () {
             this.canNotSend = false
+            window.clearInterval(this.timer)
             this.timer = null
-            window.clearImmediate(this.timer)
             this.timeLeft = 60
         },
         goBack () {
@@ -261,8 +261,7 @@ export default {
         }
     },
     beforeDestroy () {
-        window.clearImmediate(this.timer)
-        this.timer = null
+        this.initTimer()
     }
 }
 </script>
