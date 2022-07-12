@@ -148,6 +148,8 @@
                         this.dp.play()
                     }, 500)
                     if (this.dp) {
+                        let item1 = document.getElementsByClassName('dplayer-full-in-icon')[0]
+                        item1.style.display = 'none'  //移动端隐藏一个全屏按钮
                         let item = document.getElementsByClassName('dplayer-controller')[0]
                         let link = document.createElement('div')
                         link.innerHTML = "刷新"
