@@ -1,7 +1,7 @@
 
 /*eslint-disable */
 /*测试环境*/
-const _appDownloadUlr = 'http://img.wuhaicj.com/haibao100.apk'
+const _appDownloadUlr = 'http://zhuoyixiaochengxu.cn/haibao_100.apk'
 const _requestApiUrl = 'http://api.wuhaicj.com'
 const _requestWS = 'ws://ws.wuhaicj.com/'
 
