@@ -15,7 +15,7 @@ import './styles/index.scss'
 import './icons/index'
 
 import { i18n } from './utils/lang/index'
-
+console.log('test分支')
 Vue.config.productionTip = false
 
 new Vue({
