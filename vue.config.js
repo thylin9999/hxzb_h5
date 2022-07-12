@@ -67,7 +67,8 @@ module.exports = {
         proxy: {
             '/api': { // 代理 所有  /api/v1 开头的 请求
                 // 这样写就可以了
-                target: 'http://api.wuhaicj.com',
+                // target: 'http://api.wuhaicj.com',
+                target: 'http://api.hljhwyy.cn',
                 changeOrigin: true, // 跨域
                 pathRewrite: {
                     '^/api': '/api'
