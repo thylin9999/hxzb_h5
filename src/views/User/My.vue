@@ -16,7 +16,7 @@
            <span
                class="login-text font-medium d-inline-block m-b-5"
                @click="goToLogin"
-           >登录</span>
+           >登录/注册</span>
            <span class="font-14 tips m-b-5">点击登录，体验更多功能与互动</span>
         </div>
         <div v-else>
