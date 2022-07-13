@@ -132,7 +132,7 @@ export default {
                     // Toast(codeMap.registerSuccess)
                     const account = this.form.account.value
                     this.initTimer()
-                    // this.registerOrLogin()
+                    this.registerOrLogin()
                     this.form.account.value = account
                 } else {
                     this.$router.push({ path: '/' })
