@@ -2,7 +2,7 @@
 node_modules
 /dist
 dist
-public/config.js
+#public/config.js
 # local env files
 .env.local
 .env.*.local
