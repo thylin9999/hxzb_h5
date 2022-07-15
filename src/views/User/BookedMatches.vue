@@ -40,16 +40,15 @@ export default {
     methods: {
         async fetchData () {
             const { data, code } = await getBookedMatches()
-            console.log(data)
-
             if (code === statusCode.success) {
-                this.list = data.list.reduce((all, item) => {
+                this.list = data ? data.list.reduce((all, item) => {
+                    item.appointment = 1
                     all.push({
                         ...item,
                         isSubscribe: item.status === 1
                     })
                     return all
-                }, [])
+                }, []) : []
             }
         },
         onClickLeft () {

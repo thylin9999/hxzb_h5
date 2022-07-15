@@ -34,7 +34,7 @@
             class="battle-status font-500"
             @click="subscribeHost"
             :class="{
-                'is-end': isEnd,
+                'is-end': isEnd || isAppointment,
                 'is-going': isGoing
             }"
         >
