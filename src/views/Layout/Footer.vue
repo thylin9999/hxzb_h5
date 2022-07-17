@@ -59,7 +59,6 @@ export default {
             handler () {
                 const icon = this.$route.meta.icon
                 if (icon) {
-                    console.log(this.menus.find(x => x.icon === icon), this.menus, icon)
                     this.activeId = this.menus.find(x => x.icon === icon).id
                 }
             },

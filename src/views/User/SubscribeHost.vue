@@ -38,16 +38,14 @@ export default {
     methods: {
         async fetchData () {
             const { data, code } = await getSubscribeHosts()
-            console.log(data)
-
             if (code === statusCode.success) {
-                this.hosts = data.list.reduce((all, item) => {
+                this.hosts = data ? data.list.reduce((all, item) => {
                     all.push({
                         ...item,
                         isSubscribe: item.status === 1
                     })
                     return all
-                }, [])
+                }, []) : []
             }
         },
         onClickLeft () {

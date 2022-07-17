@@ -1,6 +1,9 @@
 import axios from 'axios'
 import { statusCode } from '@/utils/statusCode'
-import { getToken } from '@/utils/cookie'
+import { getToken, removeSessionStorageItem, removeToken } from '@/utils/cookie'
+import { Toast } from 'vant'
+import Router from '../router/index'
+import Store from '../store/index'
 import url from './user/url'
 const instance = axios.create({
     timeout: 6000,
@@ -23,12 +26,31 @@ instance.interceptors.request.use(config => {
     return config
 }, errorHandle)
 
+let isAuthorization = true // 是否退出了
 instance.interceptors.response.use(response => {
     const requestUrl = response.config.url
     const whiteList = [
         url.login,
         url.register
     ]
+    if (response && response.data.code === statusCode.authorizationFail) {
+        // 登录失效
+        // 清楚token等
+        removeToken()
+        removeSessionStorageItem('userInfo')
+        Store.commit('user/SET', { token: null, nickname: null, age: null })
+        Toast(response.data.msg)
+        if (isAuthorization) {
+            isAuthorization = false
+            // window.location.reload()
+            Router.push({
+                name: 'My'
+            })
+            setTimeout(() => {
+                isAuthorization = true
+            }, 3000)
+        }
+    }
     // 响应拦截器
     if (response && response.data.code === statusCode.success && !whiteList.includes(requestUrl)) {
         return response.data
