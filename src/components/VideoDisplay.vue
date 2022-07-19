@@ -108,11 +108,11 @@
                 let rtmp_url = this.roomInfo.rtmp_url
                 let rtmp_live = this.roomInfo.rtmp_live
                 let url = rtmp_url + "?" + rtmp_live
-                url = url.replace("m3u8", "flv") //m3u8转flv
+                // url = url.replace("m3u8", "flv") //m3u8转flv
                 this.playList = {
-                    'Original': url.replace(rtmp_url.split("_")[1], '1080p.flv'),
-                    'HD': url.replace(rtmp_url.split("_")[1], '720p.flv'),
-                    'ordinary': url.replace(rtmp_url.split("_")[1], '480p.flv'),
+                    'Original': url.replace(rtmp_url.split("_")[1], '1080p.m3u8'),
+                    'HD': url.replace(rtmp_url.split("_")[1], '720p.m3u8'),
+                    'ordinary': url.replace(rtmp_url.split("_")[1], '480p.m3u8'),
                 }
                 this.init()
             },
