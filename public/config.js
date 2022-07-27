@@ -1,6 +1,7 @@
 
 /*eslint-disable */
 /*测试环境*/
+// const pcUrl = 'https://www.wuhaicj.com/'
 // const _appDownloadUlr = 'http://zhuoyixiaochengxu.cn/haibao_100.apk'
 // const _requestApiUrl = 'http://api.wuhaicj.com'
 // const _requestWS = 'ws://ws.wuhaicj.com/'
